@@ -1,0 +1,182 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改密码</title>
+
+    <!-- Style css-->
+    <link href={% static "css/style.css" %} rel="stylesheet">
+
+    <!-- Bootstrap Css v3.3.7 -->
+    <link href={% static "css/bootstrap.min.css" %} rel="stylesheet">
+
+    <!--DIY-->
+    <link href={% static "css/profile.css" %} rel="stylesheet">
+    <link href={% static "css/mobile_changeInfo.css" %} rel="stylesheet">
+
+</head>
+
+{#TODO#}
+{#格式检查#}
+
+
+<body>
+<section class="team-section volunteer-details info-section">
+    <div class="container mobile-container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="charity-volunteers-details info_box">
+{#                    <div class="volunteers-content">#}
+                        {#                            后端数据：头像地址#}
+                        <div class="row">
+                            <div class="col-md-3" id="upload-avatar">
+                                <div class="avatar-box">
+                                <img class="preview" src="" id="avatar-preview">
+                                </div>
+                                <div class="input-box">
+                                    + 修改头像
+                                <input id="change-avatar" type="file" name="upload-avatar">
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="row content_box">
+
+                                    {#                                后端数据：用户名#}
+
+                                    <h2 style="margin-bottom: 17px;">
+                                    <span class="username" id="username">
+                                    </span>
+                                    </h2>
+                                    {#                                <h5>Lorem ipsum.</h5>#}
+                                    {#                                <br/>#}
+                                    <span class="span-item"><strong class="color-theme">自我介绍 </strong></span>
+                                    <p id="description" class="editable span-item "></p>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row content_box">
+                            {#                            <div class="volunteers-details-tags">#}
+
+                            {#                                    后端数据：用户相关信息#}
+
+                            <div class="tags-item">
+                                <div class="row">
+                                    <div class="col-md-3 tag-title">
+                                        <span class="span-item">邮箱</span>
+                                    </div>
+                                    <div class="col-md-9 tag-content editable span-item" id="email"></div>
+                                </div>
+                            </div>
+                            <div class="tags-item">
+                                <div class="row">
+                                    <div class="col-md-3 tag-title">
+                                        <span class="span-item">性别</span>
+                                    </div>
+                                    <div class="col-md-9 tag-content" style="margin-left: 5em" id="sex">
+                                        <input type="radio" name="sex" id="female" class="sex_box mobile-radio"
+                                               value=0>
+                                        <label for="female" class="sex_box"><span class="span-item">女</span></label>
+                                        <input type="radio" name="sex" id="male" class="sex_box mobile-radio"
+                                               value=1>
+                                        <label for="female" class="sex_box"><span class="span-item">男</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tags-item">
+                                <div class="row">
+                                    <div class="col-md-3 tag-title">
+                                        <span class="span-item">年龄</span>
+                                    </div>
+                                    <div class="col-md-9 tag-content editable span-item" id="age"></div>
+                                </div>
+                            </div>
+                            {#                        </div>#}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4 button-box">
+                                <button type="button" class="theme-btn-2 mobile-button" id="confirm">确认修改
+                                </button>
+                            </div>
+                        </div>
+{#                    </div>#}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Team Section End-->
+</body>
+
+<script src={% static "js/jquery.min.js" %}></script>
+<script src={% static "js/cropbox.js" %}></script>
+<script src={% static "layer/layer.js" %}></script>
+<script src={% static "js/mobile_changeBaseInfo.js" %}></script>
+<script type="text/javascript">
+    $.ajax({
+        type: 'GET',
+        url: '/user/userinfo/',
+        dataType: 'json',
+        cache: false,
+        beforeSend: function (xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        },
+        error: function (request) {
+
+
+        },
+        success: function (data) {
+            // console.log(data);
+            $('#avatar-preview')[0].setAttribute('src', data['avatar']);
+            $('#username')[0].innerText = data['username'];
+            $('#description')[0].innerText = data['description'];
+            $('#email')[0].innerText = data['email'];
+            // $('#sex')[0].innerText = data['sex'];
+            $('#age')[0].innerText = data['age'];
+        }
+    });
+
+    $('#confirm')[0].onclick = () => {
+        if (!valid_email()) {
+            alert('邮箱格式错误!');
+        } else if (!valid_age()) {
+            alert('年龄格式错误');
+        } else {
+            //data
+            layerData.append('description', $('#description').text());
+            layerData.append('email', $('#email').text());
+            layerData.append('age', $('#age').text());
+            layerData.append('sex', $('input:radio[name="sex"]:checked').val());
+
+            $.ajax({
+                type: 'POST',
+                url: '/user/change-info/',
+                data: layerData,
+                processData: false,
+                contentType: false,
+                dataType: 'html',
+                cache: false,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                error: function (request) {
+                    alert("Connection error:" + request.error);
+                },
+                success: function (data) {
+                    //创建一个新的文档，刷新页面
+                    const newDoc = parent.document.open("text/html", "replace");
+                    newDoc.write(data);
+                    newDoc.close();
+
+                    //关闭当前层
+                    let index = parent.layer.getFrameIndex(window.name);
+                    console.log(index);
+                    parent.layer.close(index);
+                }
+            });
+        }
+    }
+</script>
+</html>

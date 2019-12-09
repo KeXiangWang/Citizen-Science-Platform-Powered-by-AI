@@ -1,0 +1,54 @@
+{% extends 'mobile_page_template.html' %}
+{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/home_mobile.css' %}">
+    <link rel="stylesheet" href="{% static 'css_mobile/mescroll.css' %}">
+    <link rel="stylesheet" href="{% static 'css_mobile/mescroll-option.css' %}">
+{% endblock %}
+
+{% block page-content %}
+<div class="container mb-5 mescroll mescroll-bar" id="mescroll">
+    <!--headline-->
+    <div class="row justify-content-start" style="margin-top: 3rem;">
+        <div class="col-auto text-theme">
+            &nbsp;<h4 style="font-family: 'Microsoft YaHei'">{{ domain_name }}</h4>
+        </div>
+
+    </div>
+    <!--items-->
+    <ul class="row justify-content-center p-0" id="project">
+        {% for project in domain_project %}
+            <div class="col-11 col-md-5 mt-2 mx-0 p-0 rounded" style="box-shadow: 1px 1px 3px #333333">
+                <div class="row m-0 p-0">
+                    <a href="/project/detail/{{ project.pid }}/" class="col-4 mr-0 rounded p-0">
+                        <img src="{{ project.projection_image }}" class="rounded" style="height: 7rem; width: 100%;">
+                    </a>
+                    <div class="col-8 mr-0">
+                        <a href="/project/detail/{{ project.pid }}/">
+                            <h5 class="text-theme text-truncate"><small>{{ project.projection_name }}</small></h5>
+                        </a>
+                        <h6 class="text-theme text-truncate"><small><span class="badge badge-theme mr-1">发起人</span>{{ project.user_name }}</small></h6>
+                        <p class="text-truncate-2 m-0">
+                            {{ project.projection_introduction }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block project-btn %}
+    text-theme
+{% endblock %}
+
+{% block js %}
+    <script>
+        var domain_name = '{{ domain_name | safe }}';
+    </script>
+    <script type="text/javascript" src="{% static 'js_mobile/mescroll.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js_mobile/mescroll-option.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/project_domain_mobile.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,98 @@
+.index-header .title-wrapper p{
+    /*margin: 0;*/
+    /*height: 100%;*/
+    position: relative;
+    top: -4px;
+}
+.title-wrapper{
+    display: inline-block;
+    position:relative;
+    left: 10%;
+}
+#icon-header{
+    padding-left: 0;
+    position: relative;
+    /*top: -5%;*/
+    left: 14%;
+    bottom: 20px;
+    /*top: 0.75em;*/
+    display: inline-block;
+}
+.index-header h1,h2,h3,h4{
+    margin-top: 0.5rem;
+}
+.index-header div#name-container{
+    margin-top: -0.25em;
+}
+.index-header .main-menu{
+    /*height: 79.5px;*/
+    /*display: inline-block;*/
+    /*float: right;*/
+    background-color: #fa631c;
+    height: inherit;
+    /*overflow: hidden;*/
+}
+#user-profile-img, a[role=menuitem] img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+#menu{
+    position: relative;
+    height: 90px;
+}
+/*#menu */
+#menu>ul>li>a{
+    padding: 0;
+}
+#menu>ul>li{
+    position:absolute;
+    height: 90px;
+    top:0;
+    line-height: 90px;
+}
+#menu #home-btn{
+    left: 2em;
+}
+#menu #projects-btn{
+    left: 9em;
+    /*line-height: 90px;*/
+}
+#menu #volunteers-btn{
+    left: 17.5em;
+}
+#menu #contact-btn{
+    left: 28em;
+}
+#menu #register-btn{
+    left: 39em;
+}
+#menu #login-btn{
+    left: 47em;
+}
+#menu #user-profile-btn{
+    left: 47em;
+    /*top:0.5em;*/
+}
+/*#menu a:hover{*/
+    /*background-color: #fa631a;*/
+    /*color: white;*/
+/*}*/
+.third-level-submenu{
+    line-height: 1.428571429;
+}
+.main-menu nav .submenu{
+    top:auto;
+}
+.slicknav_nav .slicknav_item{
+    padding: 5px 10px;
+}
+.submenu.third-level-submenu li>a{
+    padding: 5px 30px;
+}
+
+
+.text-theme{
+    color: #fa631c;
+}

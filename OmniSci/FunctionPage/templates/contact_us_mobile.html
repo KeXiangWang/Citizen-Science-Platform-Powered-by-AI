@@ -1,0 +1,28 @@
+{% extends "mobile_page_template.html" %}
+{% load staticfiles %}
+
+
+{% block title %}
+    Contact us
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/contact_us.css' %}">
+{% endblock %}
+
+{% block page-content %}
+    <div class="row justify-content-center" style="margin-top: 4rem;">
+        <div class="col-auto">
+            <div class="m-0">
+                <h6>联系我们：omnisci_001@sina.com</h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <img src="{% static 'images/pikachu.jpeg' %}" class="bg-white border-0" style="width: 100%;">
+    </div>
+{% endblock %}
+
+{% block js %}
+{% endblock %}

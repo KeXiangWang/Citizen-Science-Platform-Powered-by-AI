@@ -1,0 +1,337 @@
+{#{% extends "page_template.html" %}#}
+{% extends "mobile_page_template.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    <!--User-->
+    <link href={% static "css/mobile_profile.css" %} rel="stylesheet">
+    <link href={% static "bower_components/cal-heatmap/cal-heatmap.css" %} rel="stylesheet">
+    <link href={% static "css/new_mobile_profile.css" %} rel="stylesheet">
+{% endblock %}
+
+{% block page-content %}
+    <!--Volunteer Details Section Start-->
+    <div class="container" id="container-profile">
+        <div class="row justify-content-center">
+            <div class="col-sm-12">
+                <div class="row justify-content-around">
+                    <div class="col-sm-4">
+                        <div class="row justify-content-center">
+                            <img class="img-rounded" id="avatar"
+                                 src={{ base.avatar }}/>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="row justify-content-center">
+                            <span class="username">
+                                {{ base.name }}
+                            </span>
+                        </div>
+                        <div class="row justify-content-around">
+                            <span class="mobile-badge">&nbsp;信誉&nbsp;{{ base.star }}</span>
+                            <span class="mobile-badge">&nbsp;参与&nbsp;{{ participate_projects | length }}</span>
+                            <span class="mobile-badge">&nbsp;发布&nbsp;{{ release_projects  | length }}</span>
+                            <span class="mobile-badge">&nbsp;提交&nbsp;<span id="total_upload"></span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-sm-12" style="margin-top: 1em">
+                        <table class="table table-condensed">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <p class="text-center"><strong>邮箱</strong></p>
+                                </td>
+                                <td>
+                                    {% if base.email %}
+                                        {{ base.email }}
+                                    {% else %}
+                                        Secret
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p class="text-center"><strong>性别</strong></p>
+                                </td>
+                                <td>
+                                    {% ifequal base.sex True %}
+                                        男
+                                        {% else %}
+                                        {% ifequal base.sex False %}
+                                            女
+                                            {% else %}
+                                            Secret
+                                        {% endifequal %}
+                                    {% endifequal %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p class="text-center"><strong>年龄</strong></p>
+                                </td>
+                                <td>
+                                    {% if base.age %}
+                                        {{ base.age }}
+                                    {% else %}
+                                        Secret
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12" style="margin-top: 1em">
+                        <h4><strong class="color-theme">自我介绍: </strong></h4>
+                        <p class="text-justify bg-lightgray description">
+                            {% ifnotequal base.description '' %}
+                                {{ base.description }}
+                                {% else %}
+                                他很懒，没有写自我介绍
+                            {% endifnotequal %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+{#            <div class="col-sm-12" style="margin-top: 1em">#}
+{#                <div class="row justify-content-around">#}
+{#                    <div class="col-sm-4">#}
+{#                        <div class="row justify-content-center btn-box">#}
+{#                            <div class="btn btn-info btn-shrink">#}
+{#                                <i class="fa fa-user fa-lg fa-fw"></i>#}
+{#                                <span class="item_name danger-item" id="change-info">&nbsp;个人信息修改</span>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="col-sm-4">#}
+{#                        <div class="row justify-content-center btn-box">#}
+{#                            <div class="btn btn-warning btn-shrink">#}
+{#                                <i class="fa fa-key fa-lg fa-fw"></i>#}
+{#                                <span class="item_name danger-item" id="change-pwd">&nbsp;密码修改</span>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="col-sm-4">#}
+{#                        <div class="row justify-content-center btn-box">#}
+{#                            <div class="btn btn-danger btn-shrink">#}
+{#                                <i class="fa fa-trash-o fa-lg fa-fw"></i>#}
+{#                                <span class="item_name danger-item" id="delete-account">&nbsp;删除账户</span>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+            <div class="col-sm-12" style="margin-top: 1em">
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" id="join_title">
+                            <div class="row justify-content-center">
+                                <div class="col-sm-10 panel-box">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#collapseOne" style="color: whitesmoke;text-decoration:none;">
+                                            <p class="text-center">项目参与详情
+                                                <i class="fa fa-sort-desc" aria-hidden="true"></i></p>
+                                        </a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <table class="table table-condensed" style="table-layout:fixed">
+                                    <thead>
+                                    <tr>
+                                        <td><p class="text-center"><strong>项目名</strong></p></td>
+                                        <td width="50%"><p class="text-center"><strong>项目描述</strong></p></td>
+                                        <td><p class="text-center"><strong>项目发布日期</strong></p></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for item in participate_projects %}
+                                        <tr>
+                                            <td>
+                                                <a href="/project/detail/{{ item.id }}/">
+                                                    <p class="text-center color-theme"><strong>{{ item.name }}</strong>
+                                                    </p>
+                                                </a>
+                                            </td>
+                                            <td class="txt">
+                                                <p class="text-justify"><span class="txt">{{ item.desc }}</span></p>
+                                            </td>
+                                            <td>
+                                                <p class="text-center"><strong>{{ item.date | date:"j,N" }}</strong></p>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="panel-heading" id="release_title">
+                            <div class="row justify-content-center">
+                                <div class="col-sm-10 panel-box">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#collapseTwo" style="color: whitesmoke;text-decoration:none;">
+                                            <p class="text-center">项目发布详情
+                                                <i class="fa fa-sort-desc" aria-hidden="true"></i></p>
+                                        </a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div >
+                        <div id="collapseTwo" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <table class="table table-condensed" style="table-layout:fixed">
+                                    <thead>
+                                    <tr>
+                                        <td><p class="text-center"><strong>项目名</strong></p></td>
+                                        <td width="50%"><p class="text-center"><strong>项目描述</strong></p></td>
+                                        <td><p class="text-center"><strong>项目发布日期</strong></p></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for item in release_projects %}
+                                        <tr>
+                                            <td>
+                                                <a href="/project/detail/{{ item.id }}/">
+                                                    <p class="text-center color-theme"><strong>{{ item.name }}</strong>
+                                                    </p>
+                                                </a>
+                                            </td>
+                                            <td class="txt">
+                                                <p class="text-justify"><span class="txt">{{ item.desc }}</span></p>
+                                            </td>
+                                            <td>
+                                                <p class="text-center"><strong>{{ item.date | date:"j,N" }}</strong></p>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="panel-heading" id="assist_title">
+                            <div class="row justify-content-center">
+                                <div class="col-sm-10 panel-box">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion"
+                                           href="#collapseThree" style="color: whitesmoke;text-decoration:none;">
+                                            <p class="text-center">项目审核详情
+                                                <i class="fa fa-sort-desc" aria-hidden="true"></i></p>
+                                        </a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <table class="table table-condensed" style="table-layout:fixed">
+                                    <thead>
+                                    <tr>
+                                        <td><p class="text-center"><strong>项目名</strong></p></td>
+                                        <td width="50%"><p class="text-center"><strong>项目描述</strong></p></td>
+                                        <td><p class="text-center"><strong>项目发布日期</strong></p></td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for item in assist_projects %}
+                                        <tr>
+                                            <td>
+                                                <a href="/project/detail/{{ item.id }}/">
+                                                    <p class="text-center color-theme"><strong>{{ item.name }}</strong>
+                                                    </p>
+                                                </a>
+                                            </td>
+                                            <td class="txt">
+                                                <p class="text-justify"><span class="txt">{{ item.desc }}</span></p>
+                                            </td>
+                                            <td>
+                                                <p class="text-center"><strong>{{ item.date | date:"j,N" }}</strong></p>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 4rem">
+{#        <div class="row position-fixed fixed-bottom justify-content-center foot">#}
+{#            <div class="col-12 text-center text-muted">#}
+{#                <p class="m-0">#}
+{#                    <small>Copyright &copy; OmniSci 2019.</small>#}
+{#                </p>#}
+{#                <div class="w-100 m-0 p-0"></div>#}
+{#                <p>#}
+{#                    <small>All rights reserved.</small>#}
+{#                </p>#}
+{#            </div>#}
+{#        </div>#}
+    </div>
+    <!--Volunteer Details Section End-->
+{% endblock %}
+
+{% block me-btn %}
+    text-theme
+{% endblock %}
+
+{% block js %}
+
+    {#    绘制heatmap#}
+    {#    cdn版本#}
+    {#    <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>#}
+    {#    <script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>#}
+    {#    本地版本#}
+    <script type="text/javascript" src={% static "bower_components/d3/d3.min.js" %}></script>
+    <script type="text/javascript" src={% static "bower_components/cal-heatmap/cal-heatmap.min.js" %}></script>
+
+    {#    修改信息#}
+    <script src={% static "layer/layer.js" %}></script>
+{#    <script type="text/javascript" src={% static "js/changeInfo.js" %}></script>#}
+    <script src={% static "js/giggle.js" %}></script>
+
+    <script type="text/javascript">
+        let len;
+        len = {{ release_projects | length }};
+        if (len == 0) {
+            $('#release_title').hide();
+        }
+
+        len = {{ participate_projects | length }};
+        if (len == 0) {
+            $('#join_title').hide();
+        }
+
+        len = {{ assist_projects | length }};
+        if (len == 0) {
+            $('#assist_title').hide();
+        }
+
+        //let projects = {{ projects | safe }};
+        //const len = projects.length;
+    </script>
+    <script type="text/javascript">
+        let data_ori = {{ upload_record | safe }};
+        let datas = {};
+        let total = 0;
+
+        for (let date in data_ori) {
+            if (data_ori[date] != 0) {
+                let timeStamp = (Date.parse(date)) / 1000;
+                datas[timeStamp] = data_ori[date];
+                total += data_ori[date];
+            }
+        }
+
+        //总提交次数
+        document.getElementById("total_upload").innerText = total;
+    </script>
+
+
+{% endblock %}

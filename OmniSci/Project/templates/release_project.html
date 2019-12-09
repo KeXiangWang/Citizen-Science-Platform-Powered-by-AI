@@ -1,0 +1,84 @@
+{% extends "page_template.html" %}
+{% load staticfiles %}
+
+
+{% block title %}
+OmniSci - 公众科学
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href={% static "css/release_project.css" %}>
+{% endblock %}
+
+{% block page-content %}
+    <section class="appoinment-section" id="project-release-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6" id="project-release-info-container">
+                    <div class="section-title-left mb-15">
+                        <h2>发布项目  <span>Start New Project</span></h2>
+                        <p>任何需求，只需轻指一点. <span>All you need is a click.</span></p>
+                    </div>
+                    <div class="appoinment-form">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <form method="post" action="/project/release/" enctype="multipart/form-data" onsubmit="return valid();">
+                                {% csrf_token %}
+
+                                <div class="form-group">
+                                    <label for="project-name">项目名</label>
+                                    <input type="text" placeholder="取个吸引眼球的名称吧" name="project_name" id="project-name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="project-intro">项目简介</label>
+                                    <textarea type="text" placeholder="项目简介，告诉志愿者如何帮助你" name="project_introduction" id="project-intro"></textarea>
+                                </div>
+                                <div class="form-group">
+                                <label for="project-category">项目类别</label>
+                                    <select name="project_category" id="project-category">
+                                        <option>植物</option>
+                                        <option>动物</option>
+                                        <option>水果</option>
+                                        <option>其他</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <h5 for="project-img">项目图片</h5>
+                                    <a href="#" class="thumbnail" width="200px" height="200px" id="project-img">
+                                        <img id="project-image" />
+                                        <input id="choose-image" type="file" name="project_image">
+                                    </a>
+                                </div>
+                                <div class="form-group">
+                                    <label for="project-label">项目标签</label>
+                                    <input type="text" placeholder="多个标签请以半角逗号分隔，如'梨,桃,梅'" name="project_label" id="project-label" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="user-defined-ai">使用自定义AI</label>
+                                    <input type="text" placeholder="自定义AI检测接口" name="user_ai_url" id="user-defined-ai" />
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input class="btn-block theme-btn-3" type="submit" value="submit">
+                                    </div>
+                                </div>
+
+                        </form>
+
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+
+                    </div>
+                <div class="col-md-3"></div>
+            </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script src={% static "js/release_project.js" %}></script>
+{% endblock %}

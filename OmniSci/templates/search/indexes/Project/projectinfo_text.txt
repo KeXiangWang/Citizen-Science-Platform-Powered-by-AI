@@ -1,0 +1,2 @@
+{{ object.projection_name }}
+{{ object.projection_introduction }}

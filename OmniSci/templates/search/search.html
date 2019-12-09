@@ -1,0 +1,171 @@
+{% extends "page_template.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/project_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/search.css' %}">
+{% endblock %}
+
+{% block page-content %}
+    <!--Welcome Section Start-->
+    <section class="welcome-section">
+        <div class="container">
+            {% if query %}
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="row">
+                            {% for result in page.object_list %}
+                                <div class="col-md-12">
+                                    <div class="featured-event featured-event-list resBox">
+                                        <div class="col-md-6 pl-0">
+                                            <div class="event-thumb">
+                                                {#                                                {% with 'project_image/'|add:result.object.projection_image  as image_static %}#}
+                                                {% with result.object.projection_image as image_static %}
+{#                                                    <img src={% static image_static %} alt="" class="cover">#}
+                                                    <a href="/project/detail/{{ result.object.pid }}/"><img src="{{ image_static }}" alt="" class="cover"></a>
+                                                {% endwith %}
+                                                <div class="event-date">
+                                                    {#                                                    <h4>23th <span>April > 2017</span></h4>#}
+                                                    <h4>{{ result.object.publish_time }}</h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="event-content">
+                                                <h3><a href="/project/detail/{{ result.object.pid }}"><span>{{ result.object.projection_name }}</span></a></h3>
+                                                <p>{{ result.object.projection_introduction }}</p>
+                                                <a class="theme-btn-3" href="/project/detail/{{ result.object.pid }}">Read More</a>
+                                                <a class="theme-btn-3" href="/project/detail/{{ result.object.pid }}">Join Now</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <div class="col-md-10">
+                                    <div style="
+                                            color: darkgray;
+                                            text-align: center;
+                                            {#transform: translateY(5em);#}
+                                            font-size: xx-large;
+                                            font-family: cursive;">
+                                        <span>不好，没有你要找的项目</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="row">
+                            {% if page.has_previous or page.has_next %}
+                                <div class="col-md-12 text-center">
+                                    <div class="pagination-wrapper">
+                                        <ul>
+                                            {% if page.has_previous %}
+                                                <li><a href="?q={{ query }}&amp;page={{ page.previous_page_number }}"><i
+                                                        class="icofont icofont-bubble-left icon"></i>Prevt</a>
+                                                </li>
+                                            {% endif %}
+                                            {% if page.has_next %}
+                                                <li><a href="?q={{ query }}&amp;page={{ page.next_page_number }}">next<i
+                                                        class="icofont icofont-bubble-right icon"></i></a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="sidebar-feature">
+                            <div class="row">
+
+                                <div class="cl-md-12 mb-30">
+                                    <div class="newsletter-form newsletter-form-st2">
+                                        <form class="form" action="/search/" method="get">
+                                            {% csrf_token %}
+                                            <div>
+                                                <input type="search" required="" placeholder="搜索项目" class="form-control"
+                                                       name="q">
+                                                <button type="submit"><i class="fa fa-paper-plane-o"></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-30">
+                                    <h4 class="sidebar-title">热门主题</h4>
+                                    <div class="cause-tags">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-30">
+                                    <h4 class="sidebar-title">热门项目</h4>
+                                    <div class="row news-post" style="display: none;">
+                                        <div class="thumb">
+                                            <a><img alt="" src="/static/images/loading.png" class="popular-event"></a>
+                                        </div>
+                                        <div class="content">
+                                            <h4><a href="#"></a></h4>
+                                            <p class="date"><i class="fa fa-clock-o"></i></p>
+                                        </div>
+                                    </div>
+                                    <div class="row news-post" style="display: none;">
+                                        <div class="thumb">
+                                            <a><img alt="" src="/static/images/loading.png" class="popular-event"></a>
+                                        </div>
+                                        <div class="content">
+                                            <h4><a href="#"></a></h4>
+                                            <p class="date"><i class="fa fa-clock-o"></i></p>
+                                        </div>
+                                    </div>
+                                    <div class="row news-post" style="display: none;">
+                                        <div class="thumb">
+                                            <a><img alt="" src="/static/images/loading.png" class="popular-event"></a>
+                                        </div>
+                                        <div class="content">
+                                            <h4><a href="#"></a></h4>
+                                            <p class="date"><i class="fa fa-clock-o"></i></p>
+                                        </div>
+                                    </div>
+                                    <div class="row news-post" style="display: none;">
+                                        <div class="thumb">
+                                            <a><img alt="" src="/static/images/loading.png" class="popular-event"></a>
+                                        </div>
+                                        <div class="content">
+                                            <h4><a href="#"></a></h4>
+                                            <p class="date"><i class="fa fa-clock-o"></i></p>
+                                        </div>
+                                    </div>
+                                    <div class="row news-post" style="display: none;">
+                                        <div class="thumb">
+                                            <a><img alt="" src="/static/images/loading.png" class="popular-event"></a>
+                                        </div>
+                                        <div class="content">
+                                            <h4><a href="#"></a></h4>
+                                            <p class="date"><i class="fa fa-clock-o"></i></p>
+                                        </div>
+                                    </div>
+                                    <div class="row news-post" style="display: none;">
+                                        <div class="thumb">
+                                            <a><img alt="" src="/static/images/loading.png" class="popular-event"></a>
+                                        </div>
+                                        <div class="content">
+                                            <h4><a href="#"></a></h4>
+                                            <p class="date"><i class="fa fa-clock-o"></i></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+    <!--Welcome Section End-->
+
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/template.js' %}"></script>
+    <script src="{% static 'js/search.js' %}"></script>
+{% endblock %}

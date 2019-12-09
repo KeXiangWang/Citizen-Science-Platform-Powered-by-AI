@@ -1,0 +1,68 @@
+
+.popup{
+    z-index: 10004;
+    position: fixed;
+    top: 50%;
+    background-color: rgba(0,0,0,0);
+    width: 100%;
+}
+.popup > .popup-info{
+    background-color: rgba(0,0,0,0.48);
+    color: white;
+    display: inline-block;
+}
+.popup > .popup-dialogue{
+    background-color: white;
+    border: 1px solid #fa631c;
+    border-radius: 0.25rem;
+    padding-top: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom:0;
+}
+.popup > .popup-dialogue button{
+    border-radius: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

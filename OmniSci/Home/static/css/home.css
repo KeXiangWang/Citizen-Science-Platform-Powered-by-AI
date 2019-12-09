@@ -1,0 +1,54 @@
+.roboto-slider-1 .slide:before,
+.roboto-slider-2 .slide:before,
+.roboto-slider-3 .slide:before {
+    background-color: rgba(5, 20, 41, 0.3);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.cause-tags .category-active{
+    background-color: #fa631c;
+}
+.cause-tags span:hover *{
+    /*background-color: #fa631c;*/
+    color: white;
+}
+.cause-tags span:hover{
+    background-color: #fa631c;
+}
+.category-active *{
+    color: white;
+}
+.category-active > a{
+    color: white;
+}
+#bottom-know-more:hover{
+    background-color: #fa631c;
+    color: white;
+}
+.theme-btn-2:hover{
+    background-color: #fa631c;
+    color: white;
+}
+.big-img{
+    width: 390px;
+    height: 234px;
+    object-fit: cover;
+}
+.small-img{
+    width: 65px;
+    height: 65px;
+}
+
+a.choosed-page{
+    color: #fa631a !important;
+}
+
+.event-content *{
+    overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap
+}

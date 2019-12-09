@@ -1,0 +1,73 @@
+#container-profile{
+    margin-top:4em;
+}
+
+#avatar{
+    width: 10em;
+    height:10em;
+    object-fit: cover;
+    border-radius: 1em;
+}
+
+.username{
+    color: #fa631c;
+    font-size: 1.5em;
+    font-weight: bold;
+    letter-spacing: 0.7px;
+}
+
+.mobile-badge{
+    font-size: initial;
+    background-color: #ec7d40bf;
+    margin-top: 1em;
+}
+
+.color-theme{
+    color: #fa631c !important
+}
+
+.description{
+    text-indent: 2em;
+    font-size: large;
+    border-radius: 1em;
+    padding: 1em;
+    border: 1px solid lightgray;
+    min-height: 10em;
+}
+
+.btn-shrink{
+    font-size: 0.6em;
+    min-width: 80%;
+    color: whitesmoke;
+}
+
+.btn-box{
+    margin-bottom: 1em;
+
+}
+
+.txt {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* 只对英文起作用，以字母作为换行依据 */
+    word-break:break-all;
+    /* 只对英文起作用，以单词作为换行依据 */
+    word-wrap:break-word;
+    /*white-space: nowrap;*/
+}
+
+.panel-box{
+    background-color: #fa631c;
+    padding-top: 0.5em;
+    /*padding-bottom: 0.5em;*/
+    border-radius: 2em;
+    margin: 1.5em;
+}
+
+.panel-title{
+    font-size: 1.2rem;
+}
+
+.foot{
+    background-color: aliceblue;
+}

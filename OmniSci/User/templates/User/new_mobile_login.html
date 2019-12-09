@@ -1,0 +1,71 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'css_mobile/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css_mobile/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css_mobile/mobile.css' %}">
+    <link rel="stylesheet" href="{% static 'css_mobile/style.css' %}">
+    <title>OmniSci</title>
+</head>
+<body>
+    <div class="container bg-white" style="width: 100%; height: 100%;">
+        <div class="row justify-content-center" style="margin-top: 4rem;">
+            <div class="col-auto pr-0">
+                <img src="{% static 'images/ico/source.ico' %}" style="height: 5rem;width: 5rem; object-fit: fill">
+            </div>
+            <div class="col-auto">
+                <h1 class="text-dark text-center display-4 m-auto align-self-center"><span class="text-theme">Omni</span>Sci</h1>
+            </div>
+        </div>
+        <div class="row justify-content-center" style="margin-top: 7rem;">
+            <form class="col-10" id="login-form"  action="\user\login\" method="post" >
+                {% csrf_token %}
+                <input class="text-center form-control w-100 m-0 mb-2 rounded-50 bg-lightgray"
+                       placeholder="用户名 Username"
+                       name = "c_name"
+                        required="required"
+                >
+                <div class="invalid-feedback" id="username-feedback">
+                            请填入正确的用户名
+                </div>
+                <input class="text-center form-control w-100 m-0 rounded-50 bg-lightgray"
+                       type="password"
+                       placeholder="密码 Password"
+                       name="c_pwd"
+                       required="required"
+                >
+                <div class="invalid-feedback" id="pwd-feedback">
+                            请输入正确的密码
+                </div>
+                <div class="row justify-content-center">
+                    <a class="rounded-circle mt-3 px-0 col-auto" id="submit-btn" value="submit" style="height: 3rem; width: 3rem;">
+                        <img src="{% static 'images/svg/right_arrow.svg' %}" style="width: 100%;">
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <div class="row justify-content-center w-100" style="position: absolute; bottom: 2rem;">
+            <div class="col-auto">
+                <div class="row justify-content-center">
+                    <a onclick="alert('请联系我们：omnisci_001@sina.com');" href="javascript:void(0)"><p class="col-auto"><small>忘记密码</small></p></a>
+                    <p class="col-auto text-muted"><small>|</small></p>
+                    <a href="/user/register"><p class="col-auto"><small>用户注册</small></p></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static 'js_mobile/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js_mobile/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/new_mobile_login.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js_mobile/popups.js' %}"></script>
+
+</body>
+
+
+
+</html>
+

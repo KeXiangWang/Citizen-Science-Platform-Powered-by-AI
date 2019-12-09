@@ -1,0 +1,81 @@
+{% extends "page_template_nohead.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    <!--User-->
+    <link href={% static "css/giggle.css" %} rel="stylesheet">
+{% endblock %}
+
+{# 此界面可以用于任何文字信息展示 #}
+{# title: 展示的标题，如：注册结果 #}
+{# msg: 待展示的信息列表 #}
+{# simple: 如果存在该变量则不显示封面图片，适合小窗口的信息展示 #}
+
+{% block page-content %}
+    <section class="welcome-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="blog-single blog-details">
+
+                                <div class="blog-content">
+                                    <div class="row text-center">
+                                        <button type="button" class="theme-btn-3" id="back">
+{#                                            <a href="/home/index/">返回首页</a>#}
+                                            返回
+                                        </button>
+                                    </div>
+                                    <div class="row text-center">
+                                        <h3><span>{{ title }}</span></h3>
+                                    </div>
+                                    <div class="row text-center">
+                                        <ul>
+                                            {% for item in msg %}
+                                                <li><p class="msg">{{ item }}</p></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                {% if not simple %}
+                                    <div class="blog-thumb">
+                                        <img src={% static "images/adorable.jpg" %} alt="">
+                                    </div>
+                                    <div class="meta-date">
+                                        <h4><span><div id="day">19</div></span><br>
+                                            <div id="month">Aug</div>
+                                        </h4>
+                                        {#                                    <h5><i class="icofont icofont-ui-messaging icon"></i>9</h5>#}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        const dateHelper = new Date();
+        const month = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+        document.getElementById("day").innerText = dateHelper.getDate().toString();
+        {#console.log('date',dateHelper.getDate().toString());#}
+        document.getElementById("month").innerText = month[dateHelper.getMonth()];
+
+        $('#back')[0].onclick = ()=>{
+            console.log('clicked');
+              //关闭当前层
+            if(parent.layer!==undefined){
+                let index = parent.layer.getFrameIndex(window.name);
+                console.log(index);
+                parent.layer.close(index);
+            }
+
+            window.location.href = "/home/index/";
+        }
+    </script>
+{% endblock %}

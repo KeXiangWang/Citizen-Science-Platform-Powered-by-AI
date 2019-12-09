@@ -1,0 +1,1048 @@
+{% extends "page_template.html" %}
+{% load staticfiles %}
+
+{% block css %}
+
+    <link rel="stylesheet" href="{% static 'css/editormd.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/project_panel.css' %}">
+    <link rel="stylesheet" href="{% static 'css/project_detail.css' %}">
+
+{% endblock %}
+
+{% block page-content %}
+    {% csrf_token %}
+    <div class="row body">
+        <!--这一列用于展示本项目的详细信息-->
+        <div class="col-md-8">
+            <!--headline of this project-->
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-8 mb-30">
+                    <h2 id="project-headline">{{ project.projection_name }}</h2>
+                </div>
+            </div>
+            <!--detail info: image, owner, created_time, am i joined-->
+            <div class="row mb-15" style="position: relative">
+                <div class="col-md-1"></div>
+                <div class="col-md-6" style="padding-left: 0">
+                    <div class="event-thumb">
+                        <img id="project-img" src="{{ project.projection_image }}" alt="">
+                    </div>
+                </div>
+                <div class="col-md-5" style="position: static">
+                    <div class="row"> <!--style="position: absolute; bottom:80%"-->
+                        <h4 id="project-owner">发起人：</h4><span>{{ project.user_name }}</span>
+                    </div>
+                    <br>
+                    <div class="row"><!-- style="position: absolute; bottom:60%"-->
+                        <h4 id="project-time">发起时间：</h4><span>{{ project.publish_time }}</span>
+                    </div>
+                    <br>
+                    <div class="row"><!-- style="position: absolute; bottom:60%"-->
+                        <h4 id="project-time">项目介绍：</h4>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12 ">
+                            <p id="project-introduction">{{ project.projection_introduction }}</p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        {% if authority < 2 %}
+                            <div class="col-md-6 col-xs-6" style="padding-left: 0">
+                                <a href="/project/download/{{ pid }}" class="download-size normal-btn"><i
+                                        class="fa fa-download"></i>&nbsp;下载数据 </a>
+                            </div>
+                            <div class="col-md-6 col-xs-6" style="padding-left: 0">
+                                <a href="#" onclick="del()" class="download-size normal-btn"><i class="fa fa-trash"></i>&nbsp;删除项目</a>
+                            </div>
+                        {% elif authority < 4 %}
+                            <a id="user-join" class="theme-btn-2 inactive-btn focus" style="pointer-events: none">
+                                <i class="fa fa-users"></i>&nbsp;已参加</a>
+                        {% else %}
+                            <a id="user-join" onclick="userJoin(false);" href="javascript:void(0)"
+                               class="theme-btn-2 normal-btn"><i class="fa fa-users"></i>&nbsp;参加</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-11" id="info-content-divider">
+                    <!--本div展示项目详情页显示按钮-->
+                    <div class="row sidebar-left">
+                        <span onclick='changeBoard(1)'><a href="javascript:void(0)" class="theme-btn-3 choosed-btn-3">成果库</a></span>
+                        <span onclick='changeBoard(2)'><a href="javascript:void(0)" class="theme-btn-3">讨论区</a></span>
+                        <span onclick='changeBoard(3)'><a href="javascript:void(0)" class="theme-btn-3">上传图片</a></span>
+                        {% if authority < 3 %}
+                            <span onclick='changeBoard(4)'><a href="javascript:void(0)" class="theme-btn-3">未审核</a></span>
+                            <span onclick='changeBoard(5)'><a href="javascript:void(0)" class="theme-btn-3 main-menu">已审核</a></span>
+                        {% endif %}
+                        {% if authority < 2 %}
+                            <span onclick='changeBoard(6)'><a href="javascript:void(0)" class="theme-btn-3">项目管理</a></span>
+                        {% endif %}
+                    </div>
+
+                    <!--本div显示成果库, 包括项目简介和志愿者上传的图片-->
+                    <div class="row project-content-section">
+                        <!--已审核/未审核下面的按钮-->
+                        {% if authority < 3 %}
+                            <div class="row " id="audited" style="display: none;">
+                                <div class="" style="">
+                                    <a href="javascript:void(0)" onclick="auditedSwitch(true)"
+                                       class="theme-btn-3 choosed-btn"><i class="fa fa-check-square"></i> 已接收</a>
+                                </div>
+                                <div class="" style="">
+                                    <a href="javascript:void(0)" onclick="auditedSwitch(false)" class="theme-btn-3"><i
+                                            class="fa fa-times-circle"></i> 已拒绝</a>
+                                </div>
+                            </div>
+                            <div id="audition-all" class="row box-border" style="display: none;margin-bottom: 1em">
+                                <a onclick="userAuditionAll('accept')" href="javascript:void(0)"
+                                   class="theme-btn-3 audition-pass"><i class="fa fa-check-square"></i> 全部接收</a>
+                                <a onclick="userAuditionAll('decline')" href="javascript:void(0)"
+                                   class="theme-btn-3 audition-delete"><i class="fa fa-times-circle"></i> 全部拒绝</a>
+                            </div>
+                            <div id="audited-accept-all" class="row box-border"
+                                 style="display: none;margin-bottom: 1em">
+                                <a onclick="userAuditionAll('decline')" href="javascript:void(0)"
+                                   class="theme-btn-3 audition-delete"><i class="fa fa-times-circle"></i> 全部拒绝</a>
+                            </div>
+                            <div id="audited-decline-all" class="row box-border"
+                                 style="display: none;margin-bottom: 1em">
+                                <a onclick="userAuditionAll('accept')" href="javascript:void(0)"
+                                   class="theme-btn-3 audition-pass"><i class="fa fa-check-square"></i> 全部接收</a>
+                                <a onclick="userAuditionAll('delete')" href="javascript:void(0)"
+                                   class="theme-btn-3 audition-delete"><i class="fa fa-trash"></i> 全部删除</a>
+                            </div>
+                        {% endif %}
+                        <div class="row" id="project-gallery">
+                            <!--这一行展示成果库的照片-->
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="project-gallery-content gallery_item col-md-12 col-sm-12 col-xs-12"
+                                         id="data_1" style="display: none;">
+                                        <img class="gallery-img" src="/static/images/loading.png" alt="">
+                                        <a href="/static/images/loading.png">
+                                            <i class="fa fa-search-plus" style="color: black;"></i>
+                                        </a>
+                                        <div class="clearfix">
+                                            <ul>
+                                                <li class="upload-user">
+                                                    <i class="fa fa-user icon"></i><span></span>
+                                                </li>
+                                                <li class="upload-time">
+                                                    <i class="fa fa-binoculars icon"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if authority < 3 %}
+                                    <div class="row audition-btn-area text-center" style="display: none;"
+                                         id="audition_1">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">拒绝 Decline</button>
+                                    </div>
+                                    <div class="row declined-area text-center" style="display: none;" id="declined_1">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">删除 Delete</button>
+                                    </div>
+                                    <div class="row accepted-area text-center" style="display: none;" id="accepted_1">
+                                        <button class="audition-delete-btn content-center">拒绝 Decline</button>
+                                    </div>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="project-gallery-content gallery_item col-md-12 col-sm-12 col-xs-12"
+                                         id="data_4" style="display: none;">
+                                        <img class="gallery-img" src="/static/images/loading.png" alt="">
+                                        <a href="/static/images/loading.png">
+                                            <i class="fa fa-search-plus" style="color: black;"></i>
+                                        </a>
+                                        <div class="clearfix">
+                                            <ul>
+                                                <li class="upload-user">
+                                                    <i class="fa fa-user icon"></i><span></span>
+                                                </li>
+                                                <li class="upload-time">
+                                                    <i class="fa fa-binoculars icon"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if authority < 3 %}
+                                    <div class="row audition-btn-area text-center" style="display: none;"
+                                         id="audition_4">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">拒绝 Decline</button>
+                                    </div>
+                                    <div class="row declined-area text-center" style="display: none;" id="declined_4">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">删除 Delete</button>
+                                    </div>
+                                    <div class="row accepted-area text-center" style="display: none;" id="accepted_4">
+                                        <button class="audition-delete-btn content-center">拒绝 Decline</button>
+                                    </div>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="project-gallery-content gallery_item col-md-12 col-sm-12 col-xs-12"
+                                         id="data_7" style="display: none;">
+                                        <img class="gallery-img" src="/static/images/loading.png" alt="">
+                                        <a href="/static/images/loading.png">
+                                            <i class="fa fa-search-plus" style="color: black;"></i>
+                                        </a>
+                                        <div class="clearfix">
+                                            <ul>
+                                                <li class="upload-user">
+                                                    <i class="fa fa-user icon"></i><span></span>
+                                                </li>
+                                                <li class="upload-time">
+                                                    <i class="fa fa-binoculars icon"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if authority < 3 %}
+                                    <div class="row audition-btn-area text-center" style="display: none;"
+                                         id="audition_7">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">拒绝 Decline</button>
+                                    </div>
+                                    <div class="row declined-area text-center" style="display: none;" id="declined_7">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">删除 Delete</button>
+                                    </div>
+                                    <div class="row accepted-area text-center" style="display: none;" id="accepted_7">
+                                        <button class="audition-delete-btn content-center">拒绝 Decline</button>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="project-gallery-content gallery_item col-md-12 col-sm-12 col-xs-12"
+                                         id="data_2" style="display: none;">
+                                        <img class="gallery-img" src="/static/images/loading.png" alt="">
+                                        <a href="/static/images/loading.png">
+                                            <i class="fa fa-search-plus" style="color: black;"></i>
+                                        </a>
+                                        <div class="clearfix">
+                                            <ul>
+                                                <li class="upload-user">
+                                                    <i class="fa fa-user icon"></i><span></span>
+                                                </li>
+                                                <li class="upload-time">
+                                                    <i class="fa fa-binoculars icon"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if authority < 3 %}
+                                    <div class="row audition-btn-area text-center" style="display: none;"
+                                         id="audition_2">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">拒绝 Decline</button>
+                                    </div>
+                                    <div class="row declined-area text-center" style="display: none;" id="declined_2">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">删除 Delete</button>
+                                    </div>
+                                    <div class="row accepted-area text-center" style="display: none;" id="accepted_2">
+                                        <button class="audition-delete-btn content-center">拒绝 Decline</button>
+                                    </div>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="project-gallery-content gallery_item col-md-12 col-sm-12 col-xs-12"
+                                         id="data_5" style="display: none;">
+                                        <img class="gallery-img" src="/static/images/loading.png" alt="">
+                                        <a href="/static/images/loading.png">
+                                            <i class="fa fa-search-plus" style="color: black;"></i>
+                                        </a>
+                                        <div class="clearfix">
+                                            <ul>
+                                                <li class="upload-user">
+                                                    <i class="fa fa-user icon"></i><span></span>
+                                                </li>
+                                                <li class="upload-time">
+                                                    <i class="fa fa-binoculars icon"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if authority < 3 %}
+                                    <div class="row audition-btn-area text-center" style="display: none;"
+                                         id="audition_5">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">拒绝 Decline</button>
+                                    </div>
+                                    <div class="row declined-area text-center" style="display: none;" id="declined_5">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">删除 Delete</button>
+                                    </div>
+                                    <div class="row accepted-area text-center" style="display: none;" id="accepted_5">
+                                        <button class="audition-delete-btn content-center">拒绝 Decline</button>
+                                    </div>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="project-gallery-content gallery_item col-md-12 col-sm-12 col-xs-12"
+                                         id="data_8" style="display: none;">
+                                        <img class="gallery-img" src="/static/images/loading.png" alt="">
+                                        <a href="/static/images/loading.png">
+                                            <i class="fa fa-search-plus" style="color: black;"></i>
+                                        </a>
+                                        <div class="clearfix">
+                                            <ul>
+                                                <li class="upload-user">
+                                                    <i class="fa fa-user icon"></i><span></span>
+                                                </li>
+                                                <li class="upload-time">
+                                                    <i class="fa fa-binoculars icon"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if authority < 3 %}
+                                    <div class="row audition-btn-area text-center" style="display: none;"
+                                         id="audition_8">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">拒绝 Decline</button>
+                                    </div>
+                                    <div class="row declined-area text-center" style="display: none;" id="declined_8">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">删除 Delete</button>
+                                    </div>
+                                    <div class="row accepted-area text-center" style="display: none;" id="accepted_8">
+                                        <button class="audition-delete-btn content-center">拒绝 Decline</button>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="project-gallery-content gallery_item col-md-12 col-sm-12 col-xs-12"
+                                         id="data_3" style="display: none;">
+                                        <img class="gallery-img" src="/static/images/loading.png" alt="">
+                                        <a href="/static/images/loading.png">
+                                            <i class="fa fa-search-plus" style="color: black;"></i>
+                                        </a>
+                                        <div class="clearfix">
+                                            <ul>
+                                                <li class="upload-user">
+                                                    <i class="fa fa-user icon"></i><span></span>
+                                                </li>
+                                                <li class="upload-time">
+                                                    <i class="fa fa-binoculars icon"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if authority < 3 %}
+                                    <div class="row audition-btn-area text-center" style="display: none;"
+                                         id="audition_3">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">拒绝 Decline</button>
+                                    </div>
+                                    <div class="row declined-area text-center" style="display: none;" id="declined_3">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">删除 Delete</button>
+                                    </div>
+                                    <div class="row accepted-area text-center" style="display: none;" id="accepted_3">
+                                        <button class="audition-delete-btn content-center">拒绝 Decline</button>
+                                    </div>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="project-gallery-content gallery_item col-md-12 col-sm-12 col-xs-12"
+                                         id="data_6" style="display: none;">
+                                        <img class="gallery-img" src="/static/images/loading.png" alt="">
+                                        <a href="/static/images/loading.png">
+                                            <i class="fa fa-search-plus" style="color: black;"></i>
+                                        </a>
+                                        <div class="clearfix">
+                                            <ul>
+                                                <li class="upload-user">
+                                                    <i class="fa fa-user icon"></i><span></span>
+                                                </li>
+                                                <li class="upload-time">
+                                                    <i class="fa fa-binoculars icon"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if authority < 3 %}
+                                    <div class="row audition-btn-area text-center" style="display: none;"
+                                         id="audition_6">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">拒绝 Decline</button>
+                                    </div>
+                                    <div class="row declined-area text-center" style="display: none;" id="declined_6">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">删除 Delete</button>
+                                    </div>
+                                    <div class="row accepted-area text-center" style="display: none;" id="accepted_6">
+                                        <button class="audition-delete-btn content-center">拒绝 Decline</button>
+                                    </div>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="project-gallery-content gallery_item col-md-12 col-sm-12 col-xs-12"
+                                         id="data_9" style="display: none;">
+                                        <img class="gallery-img" src="/static/images/loading.png" alt="">
+                                        <a href="/static/images/loading.png">
+                                            <i class="fa fa-search-plus" style="color: black;"></i>
+                                        </a>
+                                        <div class="clearfix">
+                                            <ul>
+                                                <li class="upload-user">
+                                                    <i class="fa fa-user icon"></i><span></span>
+                                                </li>
+                                                <li class="upload-time">
+                                                    <i class="fa fa-binoculars icon"></i>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if authority < 3 %}
+                                    <div class="row audition-btn-area text-center" style="display: none;"
+                                         id="audition_9">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">拒绝 Decline</button>
+                                    </div>
+                                    <div class="row declined-area text-center" style="display: none;" id="declined_9">
+                                        <button class="audition-pass-btn content-center col-md-6">接收 Accept</button>
+                                        <button class="audition-delete-btn content-center col-md-6">删除 Delete</button>
+                                    </div>
+                                    <div class="row accepted-area text-center" style="display: none;" id="accepted_9">
+                                        <button class="audition-delete-btn content-center">拒绝 Decline</button>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!--这一行显示翻页按钮-->
+                        <div class="row" id="project-data-page">
+                            <div class="col-md-12 text-center">
+                                <div class="pagination-wrapper">
+                                    <ul>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--本div展示讨论区-->
+                    <div class="row project-content-section inactive-project-section">
+                        <div id="post-list" class="show">
+                            <div class="row" id="add-post-btn" style="margin-bottom: 10px">
+                                <div class="col-md-10"></div>
+                                <div class="col-md-2">
+                                    <a href="javascript:void(0)">
+                                        <h4>
+                                            Add a post
+                                        </h4>
+                                    </a>
+
+                                </div>
+                            </div>
+                            <div class="row" id="project-discussion">
+                                <div class="row post-item" style="display: none">
+                                    <div class="col-md-1" style="padding:0;position: absolute; top: 20%;left:0.5%">
+                                        <i class="fa fa-comments"></i>
+                                    </div>
+                                    <div class="col-md-11">
+                                        <a href="javascript:void(0)">
+                                            <h4 class="post-header"></h4>
+                                        </a>
+                                        <p>
+
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row post-item" style="display: none">
+                                    <div class="col-md-1" style="padding:0;position: absolute; top: 20%;left:0.5%">
+                                        <i class="fa fa-comments"></i>
+                                    </div>
+                                    <div class="col-md-11">
+                                        <a href="javascript:void(0)">
+                                            <h4 class="post-header"></h4>
+                                        </a>
+                                        <p>
+
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row post-item" style="display: none">
+                                    <div class="col-md-1" style="padding:0;position: absolute; top: 20%;left:0.5%">
+                                        <i class="fa fa-comments"></i>
+                                    </div>
+                                    <div class="col-md-11">
+                                        <a href="javascript:void(0)">
+                                            <h4 class="post-header"></h4>
+                                        </a>
+                                        <p>
+
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row post-item" style="display: none">
+                                    <div class="col-md-1" style="padding:0;position: absolute; top: 20%;left:0.5%">
+                                        <i class="fa fa-comments"></i>
+                                    </div>
+                                    <div class="col-md-11">
+                                        <a href="javascript:void(0)">
+                                            <h4 class="post-header"></h4>
+                                        </a>
+                                        <p>
+
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row post-item" style="display: none">
+                                    <div class="col-md-1" style="padding:0;position: absolute; top: 20%;left:0.5%">
+                                        <i class="fa fa-comments"></i>
+                                    </div>
+                                    <div class="col-md-11">
+                                        <a href="javascript:void(0)">
+                                            <h4 class="post-header"></h4>
+                                        </a>
+                                        <p>
+
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <div class="pagination-wrapper">
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="add-post" class="hidden">
+                            <div class="row" id="add-post-btn" style="margin-bottom: 10px">
+                                <div class="col-md-2">
+                                    <a href="javascript:void(0)">
+                                        <h4>Add a post</h4>
+                                    </a>
+                                </div>
+                                <div class="col-md-8"></div>
+                                <div class="col-md-2">
+                                    <a href="javascript:void(0)">
+                                        <h4>All post</h4>
+                                    </a>
+                                </div>
+                            </div>
+                            <!--add a post-->
+                            <div class="row">
+
+                                <div class="row" style="margin-left: 30px;">
+                                    <h4>标题</h4>
+                                    <input type="text" placeholder="请填写issue标题" required="required" style="width: 90%">
+                                </div>
+                                <div class="row" style="margin-left: 30px;">
+                                    <h4>描述</h4>
+                                    <input type="text" placeholder="请填写issue描述" required="required"
+                                           style="width: 90%; height: 200px">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input onclick="userAddPost()" class="btn-block theme-btn-3" type="submit"
+                                               value="submit">
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="post-detail" class="hidden">
+                            <!--控制返回post-list -->
+                            <div class="row control-bar" style="position: relative">
+                                <div class="col-xs-1" style="padding: 0;">
+                                    <i class="fa fa-chevron-left"
+                                       style="padding: 0; color:#fa631a; position: absolute; top:1000%; left: 10%"></i>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="javascript:void(0)"><h4 style="position: relative; left:-55%;">All
+                                        posts</h4></a>
+                                </div>
+                            </div>
+                            <!--这个post的提出者及描述-->
+                            <div class="row" id="post-title" style="margin-top: 15px;">
+                                <h4 class="clear-sides-30"></h4>
+                            </div>
+                            <div class="row" id="post-owner" style="margin-top: 15px;">
+                                <span class="clear-sides-30">
+                                    Posted by
+                                    <span><b></b></span>
+                                     on
+                                    <span class="clear-sides-30"></span>
+                                </span>
+                            </div>
+                            <div class="row" id="post-description" style="margin-top: 15px;">
+                                <div class="clear-sides-30" id="ISSUE_ID-description">
+
+                                </div>
+                            </div>
+                            <!--回复按钮-->
+                            <div class="row">
+                                <a href="#add-a-response" class="theme-btn-3 clear-sides-30" style="margin-top: 30px">Add
+                                    a response</a>
+                            </div>
+                            <!--分割线-->
+                            <div class="row">
+                                <div class="clear-sides-30"
+                                     style="border:1px solid lightgray; margin-top: 20px; margin-bottom: 20px;"></div>
+                            </div>
+                            <!--回复们-->
+                            <div class="row">
+                                <div class="response-item clear-sides-30" id="response_1">
+                                    <div class="clear-sides-10 response-owner">
+                                        <h5></h5>
+                                        <span></span>
+                                    </div>
+                                    <div class="clear-sides-10 response-text">
+
+                                    </div>
+                                </div>
+                                <div class="response-item clear-sides-30" id="response_2">
+                                    <div class="clear-sides-10 response-owner">
+                                        <h5></h5>
+                                        <span></span>
+                                    </div>
+                                    <div class="clear-sides-10 response-text">
+
+                                    </div>
+                                </div>
+                                <div class="response-item clear-sides-30" id="response_3">
+                                    <div class="clear-sides-10 response-owner">
+                                        <h5></h5>
+                                        <span></span>
+                                    </div>
+                                    <div class="clear-sides-10 response-text">
+
+                                    </div>
+                                </div>
+                                <div class="response-item clear-sides-30" id="response_4">
+                                    <div class="clear-sides-10 response-owner">
+                                        <h5></h5>
+                                        <span></span>
+                                    </div>
+                                    <div class="clear-sides-10 response-text">
+
+                                    </div>
+                                </div>
+                                <div class="response-item clear-sides-30" id="response_5">
+                                    <div class="clear-sides-10 response-owner">
+                                        <h5></h5>
+                                        <span></span>
+                                    </div>
+                                    <div class="clear-sides-10 response-text">
+
+                                    </div>
+                                </div>
+                                <div class="row" id="response_page">
+                                    <div class="col-md-12 text-center">
+                                        <div class="pagination-wrapper">
+                                            <ul>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--分割线-->
+                            <div class="row">
+                                <div class="clear-sides-30" style="border:1px solid lightgray; margin-top: 20px; margin-bottom: 20px;"></div>
+                            </div>
+                            <!--Response编辑器-->
+                            <div class="row">
+                                <h4 class="clear-sides-10" style="margin-bottom: 10px; margin-left: 10px"
+                                    id="add-a-response">Add a response</h4>
+                            </div>
+                            <div class="row">
+                                <div id="editormd">
+                                    <textarea style="display:none;"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <input onclick="userResponse()" class="btn-block theme-btn-3" type="submit"
+                                           value="submit">
+                                </div>
+                                <div class="col-md-4"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--本div展示图片上传区-->
+                    <div class="row project-content-section inactive-project-section">
+                        <div class="col-md-3"></div>
+                        <div class="appoinment-form col-md-6" id="project-upload">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form action="#">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="upload-img">上传图片</label>
+                                            <a href="#" class="thumbnail" width="200px" height="200px" id="upload-img">
+                                                <img id="user-upload-img"/>
+                                                <input id="user-submit" type="file" name="user-upload-img">
+                                            </a>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="img-label">请选择图片标签</label>
+                                            <select id="img-label">
+                                                {% for label in labels %}
+                                                    <option>{{ label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>请选择地点</label>
+                                            <select name="province" id="province">
+                                                <option value="请选择城市">请选择省份</option>
+                                            </select>
+                                            <select name="city" id="city">
+                                                <option value="请选择城市">请选择城市</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-4">
+                                                <a id="submit-btn" href="javascript:void (0);" onclick="userSubmit(false);" class="theme-btn-3 text-center" style="width: 100%;">
+                                                    Submit
+                                                </a>
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!--本div展示项目管理区-->
+                    <div class="row project-content-section inactive-project-section">
+
+                        <!--基本信息/参与概览-->
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 box-border">
+                                <div class="slate">
+                                    <div class="page-header">
+                                        <h2><i class="fa fa-paperclip pull-right"></i><span>基本信息</span></h2>
+                                    </div>
+                                    <div class="row info-row">
+                                        <div class="col-md-4">项目id</div>
+                                        <div class="col-md-8">{{ pid }}</div>
+                                    </div>
+                                    <div class="row info-row">
+                                        <div class="col-md-4">项目领域</div>
+                                        <div class="col-md-8">{{ p_area }}</div>
+                                    </div>
+                                    <div class="row info-row">
+                                        <div class="col-md-4">项目模型</div>
+                                        <div id="model" ondblclick="ShowElement(this)" class="col-md-8">{{ p_model }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 box-border">
+                                <div class="slate">
+                                    <div class="page-header">
+                                        <h2><i class="fa fa-list-alt pull-right"></i><span>参与概览</span></h2>
+                                    </div>
+                                    <div class="row info-row">
+                                        <div class="col-md-4">今日参与人数</div>
+                                        <div class="col-md-8">{{ today_people }}</div>
+                                    </div>
+                                    <div class="row info-row">
+                                        <div class="col-md-4">总参与人数</div>
+                                        <div class="col-md-8">{{ all_people }}</div>
+                                    </div>
+                                    <div class="row info-row">
+                                        <div class="col-md-4">数据量</div>
+                                        <div class="col-md-8">{{ data_quantity }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 box-border">
+                                <div class="slate info_box">
+                                    <div class="page-header">
+                                        <h2><em class="icon-list-alt pull-right"></em><span>项目标签</span></h2>
+                                    </div>
+                                    <div id="labels" class="word-size " style="word-break: break-all"
+                                         ondblclick="ShowElement(this)">{{ project.need_data }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-xs-12 box-border">
+                                <div class="slate info_box">
+                                    <div class="page-header">
+                                        <h2><em class="icon-list-alt pull-right"></em><span>项目介绍</span></h2>
+                                    </div>
+                                    <div id="introduction" class="word-size " style="word-break: break-all"
+                                         ondblclick="ShowElement(this)">{{ p_intro }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--助手们-->
+                        <div class="row box-border">
+                            <div class="col-md-12 col-xs-12 box-border">
+                                <div class="slate info_box">
+                                <div class="page-header">
+                                    <h2><i class="fa fa-group pull-right"></i><span>我的助手</span></h2>
+                                </div>
+                                {% for user in assistant %}
+                                    <div class="row info-row">
+                                        <div class="col-md-4">{{ user.user_name }}</div>
+                                        <div class="col-md-4">{{ user.email_address }}</div>
+                                        <div class="col-md-4 cancel-grant">
+                                            <a class="theme-btn-3" href="javascript:void(0)" onclick="userRemoveAuthority({{ user.uid }}, this)">取消授权</a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <div id="add-assistant" class="row" style="margin-top: 2em">
+                                    <div class="page-header">
+                                        <h4><span><i class="fa fa-plus"></i> 添加助手</span></h4>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="grant-email" style="display: inline-block; width:10%;">邮箱</label>
+                                            <input type="text" id="grant-email" placeholder="请输入被授权人的邮箱" style="display: inline-block; padding-top: 8px;width: 70%"/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a class="theme-btn-3" href="javascript:void(0)" onclick="userAddAuthority()">授权</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+
+                        </div>
+                        <!--图表们-->
+                        <div class="row box-border">
+                            <div class="col-md-12 col-xs-12 box-border">
+                            <div class="slate">
+                                <div class="page-header">
+                                    <h2><i class="fa fa-signal pull-right"></i><span>项目近30日提交数据趋势</span></h2>
+                                </div>
+                                <div id="container" style="margin-top:0;height: 400px"></div>
+                            </div>
+                            <div class="slate">
+                                <div class="page-header">
+                                    <h2><i class="fa fa-signal pull-right"></i><span>数据地点分布</span></h2>
+                                </div>
+                                <div class="form-inline">
+                                    <div class="btn-group">
+                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                            时间
+                                            <i class="caret"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" style="min-width:100%;">
+                                            <li><a href='javascript:void (0);' onclick=showMap("#c-4")>本周</a>
+                                            </li>
+                                            <li><a href='javascript:void (0);' onclick=showMap("#c-5")>本月</a>
+                                            </li>
+                                            <li><a href='javascript:void (0);' onclick=showMap("#c-6")>本年</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12" id="c-4">
+                                            <div style="height: 400px" id="container-1">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" id="c-5">
+                                            <div style="height: 400px" id="container-2">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" id="c-6">
+                                            <div style="height: 400px" id="container-3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <!--最近参与者-->
+                        <div class="row box-border">
+                        <div class="col-md-12 col-xs-12 box-border">
+                                <div class="slate">
+                                    <div class="page-header">
+                                        <h2><i class="fa fa-group pull-right"></i><span>Latest Partner</span></h2>
+                                    </div>
+                                    <table class="orders-table table" style="margin-top: 4rem">
+                                        <tbody>
+                                        {% for record in p_partner8 %}
+                                            {% ifequal record.1 0 %}
+                                                <tr>
+                                                    <td><a href="javascript:void(0)">{{ record.3 }}</a> <span
+                                                            class="label label-danger">未审核</span></td>
+                                                    <td>{{ record.2 }}</td>
+                                                </tr>
+                                            {% else %}
+                                                <tr>
+                                                    <td><a href="javascript:void(0)">{{ record.3 }}</a> <span
+                                                            class="label label-success">已审核</span></td>
+                                                    <td>{{ record.2 }}</td>
+                                                </tr>
+                                            {% endifequal %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    {% ifnotequal p_partner_other '' %}
+                                        <div id="collapseTwo" class="panel-collapse collapse">
+                                            <table class="orders-table table">
+                                                <tbody>
+                                                {% for record in p_partner_other %}
+                                                    {% ifequal record.1 0 %}
+                                                        <tr>
+                                                            <td><a href="javascript:void(0)">{{ record.3 }}</a> <span
+                                                                    class="label label-danger">未审核</span></td>
+                                                            <td>{{ record.2 }}</td>
+                                                        </tr>
+                                                    {% else %}
+                                                        <tr>
+                                                            <td><a href="javascript:void(0)">{{ record.3 }}</a> <span
+                                                                    class="label label-success">已审核</span></td>
+                                                            <td>{{ record.2 }}</td>
+                                                        </tr>
+                                                    {% endifequal %}
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <a class="view-color" id="view2" data-toggle="collapse" data-parent="#accordion"
+                                           href="#collapseTwo">
+                                            View more
+                                        </a>
+                                    {% endifnotequal %}
+                                </div>
+                        </div>
+                         </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--这一列用于展示其他项目的缩略图-->
+        <div class="col-md-4">
+            <div class="sidebar-feature">
+                <div class="row">
+                    <div class="cl-md-12 mb-30">
+                        <div class="newsletter-form newsletter-form-st2">
+                            <form class="form" action="/search/" method="get">
+                                {% csrf_token %}
+                                <div style="margin-top: 10px;">
+                                    <input type="search" required="" placeholder="搜索项目" class="form-control" name="q">
+                                    <button type="submit"><i class="fa fa-paper-plane-o"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-30">
+                        <h4 class="sidebar-title">热门主题</h4>
+                        <div class="cause-tags">
+                            {% for d in domain %}
+                                <span>
+                                    <i class="fa fa-paper-plane-o icon"></i>
+                                    <a href="/project/domain/{{ d.domain_name }}">{{ d.domain_name }}</a>
+                                </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-30">
+                        <h4 class="row sidebar-title">热门项目</h4>
+                        {% for project in projects %}
+                            <div class="row news-post">
+                                <div class="thumb">
+                                    <a href="/project/detail/{{ project.pid }}/">
+                                        <img alt="" src="{{ project.projection_image }}" class="popular-event">
+                                    </a>
+                                </div>
+                                <div class="content">
+                                    <h4><a href="/project/detail/{{ project.pid }}/">{{ project.projection_name }}</a>
+                                    </h4>
+                                    <p class="date"><i class="fa fa-binoculars"></i>{{ project.publish_time }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+<!-- All JavaScript files -->
+
+{% block js %}
+    <script type="text/javascript" charset="utf-8" src={% static "js/echarts.min.js" %}></script>
+    <script src="{% static 'js/editormd.min.js' %}"></script>
+    <script src="{% static 'lib/marked.min.js' %}"></script>
+    <script src="{% static 'lib/prettify.min.js' %}"></script>
+
+    <script type="text/javascript">
+        var authority = {{ authority | safe }};
+        var pid = {{ project.pid | safe }};
+        var page_cnt = {{ page_cnt | safe }};
+        var issue_page_cnt = {{ issue_page_cnt | safe }};
+        {% if authority < 2 %}
+            var data = {{ p_data| safe }};
+            var t = {{ p_data| safe }};
+        {% endif %}
+    </script>
+    <script>
+        var province_data_week = {{ province_data_week|safe }};
+        var mydata_week = province_data_week.map(function (item) {
+            return {
+                value: item[1],
+                name: item[0]
+            }
+        });
+        var max_week ={{ max_week|safe }};
+        var province_data_month = {{ province_data_month|safe }};
+        var mydata_month = province_data_month.map(function (item) {
+            return {
+                value: item[1],
+                name: item[0]
+            }
+        });
+        var max_month ={{ max_month|safe }};
+        var province_data_year = {{ province_data_year|safe }};
+        var mydata_year = province_data_year.map(function (item) {
+            return {
+                value: item[1],
+                name: item[0]
+            }
+        });
+        var max_year ={{ max_year|safe }};
+    </script>
+    <script src="{% static 'js/project_panel.js' %}"></script>
+    <script src="{% static 'js/template.js' %}"></script>
+    <script src="{% static 'js/project_detail.js' %}"></script>
+    <script src="{% static 'js/user_behavior.js' %}"></script>
+    <script src="{% static 'js/forum.js' %}"></script>
+    <script src="{% static 'js/location_select.js' %}" defer="defer"></script>
+    <script type="text/javascript" charset="utf-8" src={% static "js/china.js" %}></script>
+
+{% endblock %}

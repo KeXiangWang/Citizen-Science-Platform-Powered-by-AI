@@ -1,0 +1,15 @@
+Django==2.1.7
+pip==19.0.3
+pytz==2018.9
+setuptools==40.8.0
+wheel==0.33.1
+whoosh
+jieba
+django-haystack
+requests
+tensorflow
+keras
+celery_haystack
+zipstream
+celery_haystack
+zipstream

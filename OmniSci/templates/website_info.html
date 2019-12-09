@@ -1,0 +1,674 @@
+{% extends "page_template.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" href={% static "css/website_info.css" %}>
+    <link rel="stylesheet" href={% static "css/font-awesome.css" %}>
+{% endblock %}
+
+{% block page-content %}
+    <div class="container body info-body">
+        <div class="row">
+            <div class="col-md-4 head-box">
+                <div class="head-box-content-1">
+                    <div class="my-font-1"><span id="all-user">累计用户:{{ all_user }}</span></div>
+                    <progress max="100" value="20" id="pg" class="progress-1"></progress>
+                    <span style="margin-left: 5px">{{ all_user }}人</span>
+                </div>
+            </div>
+            <div class="col-md-4 head-box">
+                <div class="head-box-content-1">
+                    <div class="my-font-1"><span id="add-user">新增用户:{{ add_user }}</span></div>
+                    <progress max="100" value="0" id="pg1" class="progress-1"></progress>
+                    <span style="margin-left: 5px">{{ add_ratio }}</span>
+                </div>
+            </div>
+            <div class="col-md-4 head-box">
+                <div class="head-box-content-1">
+                    <div class="my-font-1"><span id="active-user">活跃用户:{{ active_user }}</span></div>
+                    <progress max="100" value="0" id="pg2" class="progress-1"></progress>
+                    <span style="margin-left: 5px">{{ active_ratio }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 head-box">
+                <div class="head-box-content-2" id="container-1">
+                </div>
+                <!--<div style="text-align: center;font-size: 2rem;color: #df6f13">领域分布图</div>-->
+            </div>
+            <div class="col-md-6 head-box">
+                <div class="head-box-content-2" id="container-2">
+                </div>
+                <!--<div style="text-align: center;font-size: 2rem;color: #df6f13">领域排行图</div>-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7 head-box">
+                <div class="head-box-content-3">
+                    <div class="form-inline">
+                        <div class="row" style="padding-left:2em;padding-top:1em;">
+                            <div class="btn-group">
+                                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">时间
+                                    <i class="caret"></i>
+                                </button>
+                                <ul class="dropdown-menu" style="min-width:100%;">
+                                    <li><a href='javascript:void (0);' onclick=showMap("#c-4")>本周</a></li>
+                                    <li><a href='javascript:void (0);' onclick=showMap("#c-5")>本月</a></li>
+                                    <li><a href='javascript:void (0);' onclick=showMap("#c-6")>本年</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" id="c-4">
+                                <div class="head-box-content-inner-3" id="container-4">
+                                </div>
+                            </div>
+                            <div class="col-md-12" id="c-5">
+                                <div class="head-box-content-inner-3" id="container-5">
+                                </div>
+                            </div>
+                            <div class="col-md-12" id="c-6">
+                                <div class="head-box-content-inner-3" id="container-6">
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 head-box ">
+                <div class="head-box-content-3" style="text-align: center">
+                    <div class="ribbon" style="font-size: 22px">
+                        <a href='javascript:void (0);' onclick="go_day()"><span>周</span></a>
+                        <a href="javascript:void(0);" onclick="go_week()"><span>月</span></a>
+                        <a href="javascript:void(0);" onclick="go_month()"><span>年</span></a>
+                    </div>
+                    <div class="my-table" style=" font-size: 18px">
+                        <table class="orders-table table" id="table-day">
+                            <tbody>
+                            {% for record in week %}
+                                <tr>
+                                    <td width="80" height="12"><span>{{ record.0 }}</span></td>
+                                    <td width="80" height="12"><span>{{ record.1 }}</span></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <table class="orders-table table" id="table-week" style="display: none">
+                            <tbody>
+                            {% for record in month %}
+                                <tr>
+                                    <td width="80" height="12"><span>{{ record.0 }}</span></td>
+                                    <td width="80" height="12"><span>{{ record.1 }}</span></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <table class="orders-table table" id="table-month" style="display: none">
+                            <tbody>
+                            {% for record in year %}
+                                <tr>
+                                    <td width="80" height="12"><span>{{ record.0 }}</span></td>
+                                    <td width="80" height="12"><span>{{ record.1 }}</span></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 head-box">
+                <div class="head-box-content-4">
+                    <div class="form-inline">
+                        <div class="row" style="padding-left:2em;padding-top:1em;">
+                            <div class="btn-group">
+                                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">数据分类
+                                    <i class="caret"></i>
+                                </button>
+                                <ul class="dropdown-menu" style="min-width:100%;">
+                                    <li><a href='javascript:void (0);' onclick=showMapWebsite("#container-3")>数据</a>
+                                    </li>
+                                    <li><a href='javascript:void (0);'
+                                           onclick=showMapWebsite("#container-3-project")>项目</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="head-box-content-inner-4" id="container-3">
+                            </div>
+                            <div class="head-box-content-inner-4" id="container-3-project">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+<!-- All JavaScript files
+================================================== -->
+
+{% block js %}
+    <script type="text/javascript" charset="utf-8" src={% static "js/echarts.min.js" %}></script>
+    <script type="text/javascript" charset="utf-8" src={% static "js/china.js" %}></script>
+    <script type="text/javascript">
+        var pg = document.getElementById('pg');
+        var pg1 = document.getElementById('pg1');
+        var pg2 = document.getElementById('pg2');
+
+        setInterval(function (e) {
+            pg.value = 100;
+        }, 100);
+
+        setInterval(function (e) {
+            if (pg1.value != {{ add_ratio_int|safe }}) pg1.value++;
+        }, 100);
+
+
+        setInterval(function (e) {
+            if (pg2.value != {{ active_ratio_int|safe }}) pg2.value++;
+        }, 100);
+
+
+        var dom = document.getElementById("container-1");
+        var projectDataChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        app.title = '环形图';
+        var project_list = {{ domain_project|safe }};
+        var project_data = project_list.map(function (item) {
+            return {
+                value: item[0],
+                name: item[1]
+            }
+        });
+
+        var data_list =
+        {{ domain_data|safe }}
+        var data_data = data_list.map(function (item) {
+            return {
+                value: item[0],
+                name: item[1]
+            }
+        });
+
+        option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            title: [{
+                left: 'center',
+                text: '项目分布',
+                fontSize: 18
+            }],
+            color: ['#dc69aa', '#95706d', '#97b552', '#e5cf0d', '#8d98b3', '#d87a80', '#FF99CC', '#ffb980', '#2ec7c9'].reverse(),
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data: ['项目', '数据'],
+                left: 'left',
+                top: 'top',
+                itemGap: 20,
+                // icon: 'circle',
+                textStyle: {
+                    color: '#202020',
+                    fontSize: 16
+                },
+                itemWidth: 30,
+                selectedMode: 'single',
+            },
+            series: [
+                {
+                    name: '项目',
+                    type: 'pie',
+                    title: [{
+                        left: 'center',
+                        text: '项目分布',
+                        fontSize: 18
+                    }],
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: project_data
+                },
+                {
+                    name: '数据',
+                    type: 'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: data_data
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            projectDataChart.setOption(option, true);
+        }
+
+        projectDataChart.on('legendselectchanged', function(obj) {
+            var selected = obj.selected;
+            var legend = obj.name;
+
+            if (selected) {
+                projectDataChart.setOption({
+                    title: [{
+                        left: 'center',
+                        text: legend + '分布',
+                        fontSize: 18
+                    }]
+                })
+            }
+
+        });
+
+        var dom = document.getElementById("container-2");
+        var projectDataChart_2 = echarts.init(dom);
+        var app = {};
+        option = null;
+        var data_data = {{ domain_data_rank|safe }};
+        var data_project = {{ domain_project_rank|safe }};
+        var option = {
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                top: 'top',
+                data: ['项目', '数据'],
+                itemGap: 20,
+                // icon: 'circle',
+                textStyle: {
+                    color: '#202020',
+                    fontSize: 16
+                },
+                itemWidth: 30,
+                selectedMode: 'single',
+            },
+            title: [{
+                left: 'center',
+                text: '项目分布统计',
+                fontSize: 18
+            }],
+            grid: {containLabel: true},
+            xAxis: {
+                name: 'Amount', nameLocation: 'middle', nameTextStyle: {
+                    padding: 15
+                }
+            },
+            yAxis: {type: 'category'},
+            color: ['#e5cf0d', '#8d98b3', '#d87a80', '#FF99CC', '#ffb980', '#2ec7c9'],
+
+            series: [
+                {
+                    name: '项目',
+                    type: 'bar',
+                    data: data_project,
+                    barWidth: 35,
+                    itemStyle: {
+                        emphasis: {barBorderRadius: 7},
+                        normal: {
+                            color: '#FF9999',
+                            barBorderRadius: 7
+                        }
+
+                    },
+                    // barCateGoryGap: '50%',
+                },
+                {
+                    name: '数据',
+                    type: 'bar',
+                    data: data_data,
+                    barWidth: 35,
+                    itemStyle: {
+                        emphasis: {barBorderRadius: 7},
+                        normal: {
+                            color: '#75ccc9',
+                            barBorderRadius: 7
+                        }
+                    },
+                    // barCateGoryGap: '50%',
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            projectDataChart_2.setOption(option, true);
+        }
+
+        projectDataChart_2.on('legendselectchanged', function(obj) {
+            var selected = obj.selected;
+            var legend = obj.name;
+
+            if (selected) {
+                projectDataChart_2.setOption({
+                    title: [{
+                        left: 'center',
+                        text: legend + '分布统计',
+                        fontSize: 18
+                    }]
+                })
+            }
+
+        });
+
+        function go_day() {
+            document.querySelector("#table-week").style.display = "none";
+            document.querySelector("#table-month").style.display = "none";
+            document.querySelector("#table-day").style.display = "";
+        }
+
+        function go_week() {
+            document.querySelector("#table-week").style.display = "";
+            document.querySelector("#table-month").style.display = "none";
+            document.querySelector("#table-day").style.display = "none";
+        }
+
+        function go_month() {
+            document.querySelector("#table-week").style.display = "none";
+            document.querySelector("#table-month").style.display = "";
+            document.querySelector("#table-day").style.display = "none";
+        }
+
+        var dom = document.getElementById("container-3");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+
+        var data = {{ website_data|safe }};
+        var max ={{ website_data|safe }};
+        var dateList = data.map(function (item) {
+            return item[0];
+        });
+        var valueList = data.map(function (item) {
+            return item[1];
+        });
+
+        option = {
+
+            // Make gradient line here
+            visualMap: [{
+                show: false,
+                type: 'continuous',
+                seriesIndex: 0,
+                min: 0,
+                max: 400
+            }, {
+                show: false,
+                type: 'continuous',
+                seriesIndex: 1,
+                dimension: 0,
+                min: 0,
+                max: dateList.length - 1
+            }],
+
+            // color: ['#dc69aa','#95706d', '#97b552', '#e5cf0d', '#8d98b3', '#d87a80', '#FF99CC',  '#ffb980', '#2ec7c9'].reverse(),
+
+
+            title: [{
+                left: 'center',
+                text: '网站数据趋势'
+            }],
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: [{
+                data: dateList,
+                splitLine: {show: true}
+            }],
+            yAxis: [{
+                splitLine: {show: true}
+            }],
+            grid: [{
+                bottom: '50%'
+            }],
+            series: [{
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {type: 'default', color: "#a8d3f2"},
+                        lineStyle: {color: '#5fb3ef'}
+                    }
+                },
+                showSymbol: false,
+                data: valueList,
+                markLine: {
+                    data: [
+                        {
+                            type: 'average', name: '平均值', lineStyle: {
+                                normal: {
+                                    color: '#357cef'
+                                }
+                            }
+                        },
+                    ],
+                    // color: "#2c53ef"
+                }
+            }]
+        };
+
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+
+        var dom = document.getElementById("container-3-project");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+
+        var data = {{ website_project|safe }};
+        var max ={{ website_project|safe }};
+        var dateList = data.map(function (item) {
+            return item[0];
+        });
+        var valueList = data.map(function (item) {
+            return item[1];
+        });
+
+        option = {
+
+            // Make gradient line here
+            visualMap: [{
+                show: false,
+                type: 'continuous',
+                seriesIndex: 0,
+                min: 0,
+                max: 400
+            }, {
+                show: false,
+                type: 'continuous',
+                seriesIndex: 1,
+                dimension: 0,
+                min: 0,
+                max: dateList.length - 1
+            }],
+
+            // color: ['#dc69aa','#95706d', '#97b552', '#e5cf0d', '#8d98b3', '#d87a80', '#FF99CC',  '#ffb980', '#2ec7c9'].reverse(),
+
+
+            title: [{
+                left: 'center',
+                text: '网站数据趋势'
+            }],
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: [{
+                data: dateList,
+                splitLine: {show: true}
+            }],
+            yAxis: [{
+                splitLine: {show: true}
+            }],
+            grid: [{
+                bottom: '50%'
+            }],
+            series: [{
+                type: 'line',
+                smooth: true,
+                itemStyle: {
+                    normal: {
+                        areaStyle: {type: 'default', color: "#a8d3f2"},
+                        lineStyle: {color: '#5fb3ef'}
+                    }
+                },
+                showSymbol: false,
+                data: valueList,
+                markLine: {
+                    data: [
+                        {
+                            type: 'average', name: '平均值', lineStyle: {
+                                normal: {
+                                    color: '#357cef'
+                                }
+                            }
+                        },
+                    ],
+                    // color: "#2c53ef"
+                }
+            }]
+        };
+
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+
+
+        function paint(mydata, max, id) {
+            console.log(mydata);
+            var optionMap = {
+                // backgroundColor: '#FFFFFF',
+                tooltip: {
+                    trigger: 'item'
+                },
+
+                //左侧小导航图标
+                visualMap: {
+                    show: true,
+                    x: 'left',
+                    y: 'center',
+                    min: 0,
+                    max: max,
+                    // color: ['#ffffdf','#ffffbf', '#fef0af','#fed090', '#febe81', '#fdae61', '#f46d43', '#e46d43', '#d73027',  '#c73027', '#a50026'].reverse()
+                    inRange: {
+                        color: ['#FFFFCC', '#E15457']
+                    }
+                },
+                title: [{
+                    left: 'center',
+                    text: '数据地域分布',
+                    fontSize: '18'
+                }],
+                //配置属性
+                series: [{
+                    name: '数据量',
+                    type: 'map',
+                    mapType: 'china',
+                    roam: true,
+                    label: {
+                        normal: {
+                            show: false  //省份名称
+                        },
+                        emphasis: {
+                            show: false
+                        }
+                    },
+                    data: mydata  //数据
+                }]
+            };
+            //初始化echarts实例
+            var myChart = echarts.init(document.getElementById(id));
+            //使用制定的配置项和数据显示图表
+            myChart.setOption(optionMap);
+        }
+
+        var province_data_week = {{ province_data_week|safe }};
+        var mydata_week = province_data_week.map(function (item) {
+            return {
+                value: item[1],
+                name: item[0]
+            }
+        });
+        var max_week ={{ max_week|safe }};
+
+        var province_data_month = {{ province_data_month|safe }};
+        var mydata_month = province_data_month.map(function (item) {
+            return {
+                value: item[1],
+                name: item[0]
+            }
+        });
+        var max_month ={{ max_month|safe }};
+
+        var province_data_year = {{ province_data_year|safe }};
+        var mydata_year = province_data_year.map(function (item) {
+            return {
+                value: item[1],
+                name: item[0]
+            }
+        });
+        var max_year ={{ max_year|safe }};
+        paint(mydata_week, max_week, 'container-4');
+        paint(mydata_month, max_month, 'container-5');
+        paint(mydata_year, max_year, 'container-6');
+
+        document.querySelector("#c-5").style.display = "none";
+        document.querySelector("#c-6").style.display = "none";
+        document.querySelector("#container-3-project").style.display = "none";
+
+        function showMap(id) {
+            document.querySelector("#c-4").style.display = "none";
+            document.querySelector("#c-5").style.display = "none";
+            document.querySelector("#c-6").style.display = "none";
+            document.querySelector(id).style.display = "";
+        }
+
+        function showMapWebsite(id) {
+            document.querySelector("#container-3").style.display = "none";
+            document.querySelector("#container-3-project").style.display = "none";
+            document.querySelector(id).style.display = "";
+        }
+    </script>
+
+{% endblock %}

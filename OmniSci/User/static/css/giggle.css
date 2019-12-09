@@ -1,0 +1,162 @@
+{
+%
+load
+staticfiles
+%
+}
+
+#star {
+    color: red;
+}
+
+.email {
+    margin-bottom: 1.5em;
+}
+
+.email_box {
+    position: absolute;
+    left: 7em;
+}
+
+.pwd {
+    margin-bottom: 1.5em;
+}
+
+.pwd_box {
+    position: absolute;
+    left: 7em;
+}
+
+.sex_box {
+    position: relative;
+    left: 2em;
+}
+
+.age_box {
+    position: relative;
+    left: 2em;
+
+}
+
+#author {
+    position: absolute;
+    left: 20em;
+    padding: 5px;
+}
+
+.theme-btn-2:hover {
+    background-color: rgba(256, 99, 26, 0.5);
+    box-shadow: 0 10px 18px 0 rgba(156, 156, 156, 0.15);
+    border: 1px solid #fff;
+    color: white;
+}
+
+#avatar-button {
+    height: 10em;
+    width: 10em;
+    border: dashed 1px;
+    border-radius: 1em;
+    margin: 5px;
+}
+
+#upload-avatar {
+    text-align: center;
+}
+
+#age-row {
+    margin: 2em 0;
+}
+
+.preview {
+    width: 10em;
+    height: 10em;
+    border: dashed 1px rgba(256, 99, 26, 0.5);
+    border-radius: 1em;
+    cursor: pointer;
+}
+
+/****************************************************************8*/
+
+.msg {
+    font-size: 20px;
+    color: rgba(51, 25, 18, 0.91);
+    font-weight: bolder;
+    text-align: center;
+}
+
+
+/********************************************************************/
+.title {
+    text-align: center;
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+}
+
+.title-font {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: large;
+}
+
+.thin-font {
+    font-weight: normal;
+}
+
+input::-webkit-input-placeholder {
+    font-size: small;
+    color: lightgray;
+    text-align: center;
+}
+
+input:-moz-placeholder {
+    font-size: small;
+    color: lightgray;
+    text-align: center;
+}
+
+input:-ms-input-placeholder {
+    font-size: small;
+    color: lightgray;
+    text-align: center;
+}
+
+textarea::-webkit-input-placeholder {
+    font-size: small;
+    color: lightgray;
+    text-align: center;
+}
+
+textarea:-moz-placeholder {
+    font-size: small;
+    color: lightgray;
+    text-align: center;
+}
+
+textarea:-ms-input-placeholder {
+    font-size: small;
+    color: lightgray;
+    text-align: center;
+}
+
+.box {
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+.login-radio {
+    position: relative;
+    left: 12em;
+    margin-top: 1em;
+}
+
+.login-form-box {
+    position: relative;
+    transform: translateX(50%);
+}
+
+.login-section {
+    background: blanchedalmond;
+}
+
+#submit_button {
+    text-align: center;
+}

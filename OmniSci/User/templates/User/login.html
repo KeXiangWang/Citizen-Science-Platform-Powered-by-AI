@@ -1,0 +1,135 @@
+{% extends "page_template.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    <!--User-->
+    <link href={% static "css/giggle.css" %} rel="stylesheet">
+{% endblock %}
+
+{% block page-content %}
+    <!--Appoinment Section Start-->
+    <section
+            class="appoinment-section login-section"
+    >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 login-form-box">
+                    <div class="section-title-left mb-15">
+                        <h2><span>登录</span></h2>
+                    </div>
+                    <div class="appoinment-form">
+                        <form id="auth" action="\user\login\" method="post" onsubmit="return radioCheck()">
+                            {% csrf_token %}
+
+                            <div class="row">
+{#                                  <div class="title">#}
+{#                                         <span class="title-font">身份</span>#}
+{#                                    </div>#}
+{#                                    <div class="login-radio">#}
+{#                                        <input type="radio" name="identity" id="volunteer" class="sex_box" value=0>#}
+{#                                        <label for="volunteer"  class="sex_box"><span class="thin-font">志愿者</span></label>#}
+{##}
+{#                                        <input type="radio" name="identity" id="promulgator"  class="sex_box" value=1>#}
+{#                                        <label for="promulgator"  class="sex_box"><span class="thin-font">发布者</span></label><br/>#}
+{#                                    </div>#}
+                                    <div class="title">
+                                        <span class="title-font">用户名或邮箱</span><br/>
+                                    </div>
+                                    <div class="box">
+                                        <input type="text" autofocus
+                                               placeholder="Name here"
+                                               name="c_name"
+                                                {#                                               class="email_box"#}
+                                               pattern="(^[\u4e00-\u9fa5a-zA-Z_0-9]{1,14}$)|(^[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){0,4}@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+){0,4}$)"{# 格式检查 #}
+                                               title="用户名或邮箱"
+                                               required="required"{# 不能为空 #}
+                                               style="width: 15em;height: 2em">
+                                    </div>
+
+                                    <div class="title">
+                                        <span class="title-font">密码</span><br/>
+                                    </div>
+                                    <div class="box">
+                                        <input
+                                                type="password"
+                                                placeholder="Password"
+                                                name="c_pwd"
+                                                {#                                                class="pwd_box"#}
+                                                required="required"{# 不能为空 #}
+                                                title="需包含大写字母、小写字母、标点符号和特殊字符中的至少三种，位数为8-16位"
+                                                pattern="^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\W_]+$)(?![a-z0-9]+$)(?![a-z\W_]+$)(?![0-9\W_]+$)[a-zA-Z0-9\W_]{8,16}$"
+                                        ><br/>
+                                    </div>
+                                    <div id="submit_button">
+                                        <button type="submit" class="theme-btn-2" style="width: 10em" id="register">登录
+                                        </button>
+                                    </div>
+                                    <div class="row title">
+                                        <div
+                                                class="col-md-3"
+                                                style="position: relative;transform: translateX(100%)"
+                                        >
+                                            <a href="/user/register">立即注册</a>
+                                        </div>
+                                        <div
+                                                class="col-md-3"
+                                                style="position: relative;transform: translateX(100%)"
+                                        >
+                                            <div
+                                                    onclick="forget()"
+                                                    style="cursor: pointer"
+                                            >忘记密码</div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Appoinment Section End-->
+{% endblock %}
+
+
+
+<!-- All JavaScript files
+================================================== -->
+
+{% block js %}
+    <script src={% static "layer/layer.js" %}></script>
+    <script type="text/javascript">
+        const forget = ()=>{
+            {#alert("请联系管理员 联系方式:balabala...")#}
+            layer.open({
+                area: [window.innerWidth + 'px', window.innerHeight + 'px'],
+                title: "忘记密码",
+                type: 2,                             //0:信息框;1:页面层;2:iframe层;3:加载层;4:tips层
+                content: "/contact/",
+            });
+        }
+
+        {#const radioCheck = ()=>{#}
+        {#    let item = $('input:radio[name="identity"]:checked').val();#}
+        {#    if(item){#}
+        {#        return true;#}
+        {#    }#}
+        {#    alert("请选择登录身份!");#}
+        {#    return false;#}
+        {#}#}
+
+        /*
+        const radioCheck = ()=>{
+            const radios = document.getElementsByName("identity");
+            console.log('radios',radios);
+            for (const radio in radios){
+                if(radios[radio].checked){
+                    return true;
+                }
+            }
+            alert("请选择登录身份!");
+            return false;
+        }
+        */
+    </script>
+{% endblock %}

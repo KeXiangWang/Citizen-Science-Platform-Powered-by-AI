@@ -1,0 +1,22 @@
+.mobile-login-form-box{
+    position: relative;
+}
+
+.title-font{
+    font-size: xx-large;
+    font-family: cursive;
+}
+
+.box input{
+    height: 4em;
+}
+
+#submit_button{
+    transform: scale(1.5,1.5);
+    padding-top: 2em;
+}
+
+.login-button{
+    width: 25%;
+    font-size: 1em;
+}

@@ -1,0 +1,350 @@
+{% extends "page_template.html" %}
+{% load staticfiles %}
+
+
+{% block title %}
+OmniSci - 公众科学
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href={% static "css/home.css" %}>
+
+{% endblock %}
+
+{% block page-content %}
+    <section class="roboto p-0 roboto-slider-1">
+        <div class="roboto-slider">
+            <div class="slide">
+                <img src="{% static 'images/bg/animal-avian-beak-349758.jpg' %}" alt class="slider-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col col-md-8 col-md-offset-1 col-sm-10 slide-caption">
+                            <h1>来自每个人的科学</h1>
+                            <p>我们提供面向大众的极具参与性的科学项目</p>
+                            <div class="btns-group">
+                                <a href="#popular-projects" class="theme-btn-2">立刻了解</a>
+                                <a href="/user/register" class="theme-btn-2">注册</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <img src="{% static 'images/bg/beautiful-blur-bright-326055.jpg' %}" alt class="slider-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col col-md-8 col-md-offset-1 col-sm-10 slide-caption">
+                            <h1>推动科学的进步</h1>
+                             <p>我们相信每一份来自大众的力量都将推动科学发展</p>
+                            <div class="btns-group">
+                                <a href="#popular-projects" class="theme-btn-2">立刻了解</a>
+                                <a href="/user/register" class="theme-btn-2">注册</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide">
+                <img src="{% static 'images/bg/ball-ball-shaped-color-269724.jpg' %}" alt class="slider-bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col col-md-8 col-md-offset-1 col-sm-10 slide-caption">
+                            <h1>OmniSci</h1>
+                             <p>Real science we can do together</p>
+                            <div class="btns-group">
+                                <a href="/user/login" class="theme-btn-2">成为志愿者</a>
+                                <a href="#popular-projects" class="theme-btn-2">立刻了解</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="popular-projects-section">
+        <div class="container" id="popular-projects">
+            <!--start of the row of search button-->
+
+            <div class="row">
+                <div class="col-md-8 mb-30">
+                    <h2 class="sidebar-title">热门项目  <span>What's Popular</span></h2>
+                </div>
+                <div class="col-md-4">
+                    <div class="cl-md-12 mb-30">
+                        <div class="newsletter-form newsletter-form-st2">
+                            <form class="form" action="/search/" method="get">
+                                     {% csrf_token %}
+                                <div>
+                                    <input type="text" required="" placeholder="搜索项目 Search for interests" class="form-control" name="q">
+                                    <button type="submit"><i class="fa fa-paper-plane-o"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end of the row of search button-->
+
+            <div id="popular-project-container">
+                <div>
+                    <!--start of the row of hot projects-->
+                    <div class="row">
+                        <div class="col-md-4" style="display: none;">
+                            <div class="featured-event">
+                                <div class="event-thumb">
+                                    <a><img class="big-img" src="/static/images/loading.png" alt=""></a>
+                                    <div class="event-date">
+                                        <h4><span></span></h4>
+                                    </div>
+                                </div>
+                                <div class="event-content">
+                                    <h3><a><span></span></a></h3>
+                                    <div class="event-bar clearfix">
+                                        <ul>
+                                            <li>
+                                                <a href="javascript:void(0)">
+                                                    <i aria-hidden="true" class="fa fa-clock-o icon"></i>截止日期 <span>Ends at</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a class="theme-btn-1" href="#">详情 <span>Read More</span>></a>
+                                    <a class="theme-btn-1" href="#">加入 <span>Join Now</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="display: none;">
+                            <div class="featured-event">
+                                <div class="event-thumb">
+                                    <a><img class="big-img" src="/static/images/loading.png" alt=""></a>
+                                    <div class="event-date">
+                                        <h4><span></span></h4>
+                                    </div>
+                                </div>
+                                <div class="event-content">
+                                    <h3><a><span></span></a></h3>
+                                    <div class="event-bar clearfix">
+                                        <ul>
+                                            <li>
+                                                <a href="javascript:void(0)">
+                                                    <i aria-hidden="true" class="fa fa-clock-o icon"></i>截止日期 <span>Ends at</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a class="theme-btn-1" href="#">详情 <span>Read More</span>></a>
+                                    <a class="theme-btn-1" href="#">加入 <span>Join Now</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="display: none;">
+                            <div class="featured-event">
+                                <div class="event-thumb">
+                                    <a><img class="big-img" src="/static/images/loading.png" alt=""></a>
+                                    <div class="event-date">
+                                        <h4><span></span></h4>
+                                    </div>
+                                </div>
+                                <div class="event-content">
+                                    <h3><a><span></span></a></h3>
+                                    <div class="event-bar clearfix">
+                                        <ul>
+                                            <li>
+                                                <a href="javascript:void(0)">
+                                                    <i aria-hidden="true" class="fa fa-clock-o icon"></i>截止日期 <span>Ends at</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a class="theme-btn-1" href="#">详情 <span>Read More</span>></a>
+                                    <a class="theme-btn-1" href="#">加入 <span>Join Now</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end of the row of hot projects-->
+
+                    <!--start page shifting bar for popular projects-->
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div class="pagination-wrapper">
+                                <ul>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end page shifting bar for popular projects -->
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="projects-category-section">
+        <div class="container" id="category-container-index">
+            <div class="row">
+                <div class="col-md-8">
+                    <h2 class="sidebar-title cl-md-12 mb-30">项目分类  <span>Category</span></h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="cause-tags" id="domain_label">
+
+                    </div>
+                </div>
+                <div id="category-container">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-12 mb-10" style="display: none;">
+                                    <div class="news-post">
+                                        <div class="thumb">
+                                            <a><img alt="" class="small-img" src="/static/images/loading.png"></a>
+                                        </div>
+                                        <div class="content">
+                                            <h4><a href="#"></a></h4>
+                                            <p class="date"><i class="fa fa-user"></i>发起人 <span>Owner：</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-10" style="display: none;">
+                                    <div class="news-post">
+                                        <div class="thumb">
+                                            <a><img alt="" class="small-img" src="/static/images/loading.png"></a>
+                                        </div>
+                                        <div class="content">
+                                            <h4><a href="#"></a></h4>
+                                            <p class="date"><i class="fa fa-user"></i>发起人 <span>Owner：</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-10" style="display: none;">
+                                    <div class="news-post">
+                                        <div class="thumb">
+                                            <a><img alt="" class="small-img" src="/static/images/loading.png"></a>
+                                        </div>
+                                        <div class="content">
+                                            <h4><a href="#"></a></h4>
+                                            <p class="date"><i class="fa fa-user"></i>发起人 <span>Owner：</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12 mb-10" style="display: none;">
+                                    <div class="news-post">
+                                        <div class="thumb">
+                                            <a><img alt="" class="small-img" src="/static/images/loading.png"></a>
+                                        </div>
+                                        <div class="content">
+                                            <h4><a href="#"></a></h4>
+                                            <p class="date"><i class="fa fa-user"></i>发起人 <span>Owner：</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-10" style="display: none;">
+                                    <div class="news-post">
+                                        <div class="thumb">
+                                            <a><img alt="" class="small-img" src="/static/images/loading.png"></a>
+                                        </div>
+                                        <div class="content">
+                                            <h4><a href="#"></a></h4>
+                                            <p class="date"><i class="fa fa-user"></i>发起人 <span>Owner：</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-10" style="display: none;">
+                                    <div class="news-post">
+                                        <div class="thumb">
+                                            <a><img alt="" class="small-img" src="/static/images/loading.png"></a>
+                                        </div>
+                                        <div class="content">
+                                            <h4><a href="#"></a></h4>
+                                            <p class="date"><i class="fa fa-user"></i>发起人 <span>Owner：</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div class="pagination-wrapper">
+                                    <ul>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <section class="half-c-divider bg-img bg-img3 parallax" data-bg-image={% static "images/bg/img-px-1.jpg" %} data-speed="5">
+        <div class="container">
+            <div class="row mb-30">
+                <h2 class="sidebar-title">我们的使命  <span>Our Mission</span></h2>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="charity-divider divider-style2 pr-40">
+                        <h4>让科学走进千家万户</h4>
+                        <h4>每个人都成为小小科学家</h4>
+                        <h4><span>Let Science Be Omnipresent</span></h4>
+                        <h4><span>Explore your possibilities</span></h4>
+                        <p>每一份努力都将推动科学的发展，立即<a href="/user/register"><span>注册</span></a>，在科学发展史上留下足迹！</p>
+                        <div class="btn-box">
+                            <a class="theme-btn-3" href="#category-container-index" id="bottom-know-more">了解更多项目</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="row pl-40">
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <div class="charity-single">
+                                <i class="flaticon-charity-2 icon"></i>
+                                <h2><span class="counter">{{ project_num }}</span></h2>
+                                <strong>项目</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <div class="charity-single">
+                                <i class="flaticon-money-1 icon"></i>
+                                <h2><span class="counter">{{ user_num }}</span></h2>
+                                <strong>志愿者</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-4">
+                            <div class="charity-single">
+                                <i class="flaticon-charity-3 icon"></i>
+                                <h2><span class="counter">{{ domain_num }}</span></h2>
+                                <strong>类别</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        var popular_project = {{ popular_project | safe }};
+        var category_project  = {{ category_project | safe }};
+    </script>
+    <script src="{% static 'js/template.js' %}"></script>
+    <script src={% static "js/home.js" %}></script>
+{% endblock %}

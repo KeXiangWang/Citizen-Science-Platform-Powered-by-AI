@@ -1,0 +1,127 @@
+.info-body {
+    /*background-color: #F1FAFA;*/
+    color: #202020;
+}
+
+.head-box {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /*padding-right: 20px;*/
+    /*background-color: #d9ff4c;*/
+}
+
+.head-box-content-1 {
+    text-align: center;
+    background-color: #fffef0;
+    height: 13rem;
+    padding-top: 4rem;
+}
+
+.head-box-content-2 {
+    height: 25rem;
+    background-color: #fffef0;
+    padding-top: 2rem;
+}
+
+.head-box-content-3 {
+    height: 25rem;
+    background-color: #fffef0;
+    /*padding-bottom: 5%;*/
+}
+.head-box-content-inner-3 {
+    height: 20rem;
+    background-color: #fffef0;
+    /*padding-bottom: 5%;*/
+}
+.head-box-content-4 {
+    height: 22rem;
+    background-color: #fffef0;
+    padding-top: 2rem;
+}
+
+.head-box-content-inner-4 {
+    height: 25rem;
+}
+
+.my-font-1 {
+    font-size: 2rem;
+
+}
+
+.progress-1 {
+    border-radius: 5px;
+    width: 55%;
+    margin-top: 5%;
+}
+
+.ribbon {
+    display: inline-block;
+}
+
+.ribbon:after, .ribbon:before {
+    margin-top: 0.5em;
+    content: "";
+    float: left;
+    border: 1.5em solid #ffffcc;
+}
+
+.ribbon:after {
+    border-right-color: transparent;
+}
+
+.ribbon:before {
+    border-left-color: transparent;
+}
+
+.ribbon a:link, .ribbon a:visited {
+    color: #000;
+    text-decoration: none;
+    float: left;
+    height: 3.5em;
+    overflow: hidden;
+}
+
+.ribbon span {
+    background: #ffffcc;
+    display: inline-block;
+    line-height: 3em;
+    padding: 0 1em;
+    margin-top: 0.5em;
+    position: relative;
+
+    -webkit-transition: background-color 0.2s, margin-top 0.2s; /* Saf3.2+, Chrome */
+    -moz-transition: background-color 0.2s, margin-top 0.2s; /* FF4+ */
+    -ms-transition: background-color 0.2s, margin-top 0.2s; /* IE10 */
+    -o-transition: background-color 0.2s, margin-top 0.2s; /* Opera 10.5+ */
+    transition: background-color 0.2s, margin-top 0.2s;
+}
+
+.ribbon a:hover span {
+    background: #FF9933;
+    /*background-color: #000000;*/
+    margin-top: 0;
+}
+
+.ribbon span:before {
+    content: "";
+    position: absolute;
+    top: 3em;
+    left: 0;
+    border-right: 0.5em solid #917d34;
+    border-bottom: 0.5em solid #fff;
+}
+
+.ribbon span:after {
+    content: "";
+    position: absolute;
+    top: 3em;
+    right: 0;
+    border-left: 0.5em solid #917d34;
+    border-bottom: 0.5em solid #fff;
+}
+
+.my-table {
+    /*padding-left: 0%;*/
+    /*padding-right: 0%;*/
+    /*padding-top: 5%;*/
+}

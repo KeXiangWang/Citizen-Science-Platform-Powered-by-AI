@@ -1,0 +1,310 @@
+h1:hover, h2:hover, h3:hover, h4:hover, p:hover, span:hover {
+    color: #fa631a;
+}
+
+span {
+    transition: all, 0.3s;
+}
+
+#project-img {
+    width: 100%;
+    height: 300px;
+}
+
+.gallery-img {
+    width: 270px;
+    height: 160px;
+    margin-left: 0;
+    object-fit: cover;
+}
+
+#project-owner, #project-time {
+    display: inline-block;
+}
+
+.sidebar-social {
+    margin-top: 0.5em;
+}
+
+.container {
+    margin-top: 2em;
+}
+
+.theme-btn-3 .theme-btn-2 {
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+    border: 1px solid #eee;
+    color: #fa631c;
+    font-size: 0.86667rem;
+    font-weight: 500;
+    outline: 0 none;
+    padding: 8px 14px;
+    text-transform: uppercase;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    -ms-border-radius: 3px;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+}
+
+.theme-btn-3:hover, .theme-btn-3:focus, .theme-btn-3.choosed-btn-3,
+.theme-btn-2:hover {
+    background-color: #fa631a;
+    box-shadow: 0 10px 18px 0 rgba(156, 156, 156, 0.15);
+    border: 1px solid #fff;
+    color: white;
+}
+
+.normal-btn, .inactive-btn {
+
+    border: 1px solid #eee;
+    border-radius: 50px;
+
+    font-size: 0.86667rem;
+    font-weight: 500;
+    outline: 0 none;
+    padding: 14px 18px;
+    position: relative;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+}
+
+.normal-btn:hover, .normal-btn:focus {
+    background-color: #fa631a;
+    color: #fff;
+}
+
+.inactive-btn, .inactive-btn:hover, .inactive-btn *:hover, .inactive-btn:focus {
+    background-color: lightgrey;
+    color: gray;
+}
+
+/* 审查相关 */
+.audition-btn, .audition-delete-btn, .audition-pass-btn {
+    /*background-color: #fa631a;*/
+    /*color: #fff;*/
+    /*height:50px;*/
+    /*padding:15px 32px;*/
+    margin: 4px 0px;
+    font-size: 15px;
+    background-color: #f7f7f7;
+    border: 1px solid #eee;
+    color: #fa631c;
+    font-size: 0.86667rem;
+    font-weight: 500;
+    outline: 0 none;
+    padding: 8px 14px;
+    text-transform: uppercase;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    -ms-border-radius: 3px;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+}
+
+.audition-btn:hover, .audition-btn:focus, .audition-btn:active {
+    background-color: #fa631c;
+    color: #fff;
+}
+
+.audition-pass-btn:hover, .audition-pass-btn:focus, .audition-pass-btn:active {
+    background-color: #339933;
+    color: #fff;
+}
+
+.audition-delete-btn:hover, .audition-delete-btn:focus {
+    background-color: red;
+    color: #fff;
+}
+
+#info-content-divider {
+    border: thick;
+    border-top: solid;
+    border-top-color: #fa631a;
+    padding-left: 0;
+    /*margin-left: 0;*/
+    /*height: 10em;*/
+}
+
+.project-content-section {
+
+    padding-top: 1em;
+}
+
+.project-gallery-content {
+    box-shadow: 2px 2px 3px #aaaaaa;;
+    /*margin-bottom: 1em;*/
+    padding-right: 0.5em;
+}
+
+.fa.icon {
+    color: #fa631a;
+    margin-right: 0.5em;
+
+}
+
+.upload-time .upload-user {
+    display: inline-block;
+}
+
+.upload-user {
+    margin-left: 2em;
+    float: left;
+}
+
+.upload-time {
+    margin-right: 2em;
+    float: right;
+}
+
+.pagination-wrapper *:hover, li a.choosed-page {
+    color: #fa631a;
+}
+
+.pagination-wrapper * {
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.inactive-project-section {
+    display: none;
+}
+
+.row.body .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.popular-event {
+    width: 65px;
+    height: 65px;
+}
+
+/* 侧栏 */
+.news-post {
+    position: relative;
+}
+
+.news-post thumb {
+    position: absolute;
+    left: 5%;
+}
+
+/*讨论区相关*/
+
+.post-item {
+    border-left: 4px solid #fa631a;
+    border-right: 1px solid lightgrey;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+    box-shadow: 1px 1px 2px #888888;
+    transition: 0.3s;
+    position: relative;
+
+}
+
+.post-item:hover {
+    background-color: lightgrey;
+}
+
+.post-item h4 {
+    color: #fa631a;
+    /*margin-top: 0;*/
+}
+
+.post-item h4, p {
+    margin-left: 1em;
+}
+
+.post-item .fa {
+    color: #fa631a;
+}
+
+#add-post-btn h4 {
+    color: #fa631a;
+}
+
+#add-post-btn h4:hover {
+    text-decoration: underline;
+}
+
+/*控制此刻显示的是帖子列表 or 某个帖子的详细内容*/
+.show {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+#post-detail {
+    border: 1px solid lightgray;
+}
+
+#post-detail .control-bar h4 {
+    color: #fa631a;
+}
+
+#post-detail .control-bar h4:hover {
+    text-decoration: underline;
+}
+
+#post-description p {
+    color: black;
+}
+
+#post-title h4:hover, #post-owner span:hover, #post-description p:hover {
+    color: black;
+}
+
+.clear-sides-30 {
+    margin-right: 30px;
+    margin-left: 30px;
+}
+
+.clear-sides-10 {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.response-item {
+    border: 0.5px solid lightgray;
+    box-shadow: 0.5px 0.5px 1px #888888;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    /*position: relative;*/
+}
+
+.response-item .response-owner, .response-owner .response-text {
+    margin-top: 5px;
+}
+
+.response-owner h5 {
+    /*position: relative;*/
+    /*left: 1%;*/
+}
+
+.response-owner span {
+    /*position: relative;*/
+    /*right: 1%;*/
+    font-size: 12px;
+    margin-bottom: 10px;
+}

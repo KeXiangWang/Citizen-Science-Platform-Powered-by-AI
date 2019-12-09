@@ -1,0 +1,114 @@
+{% load staticfiles %}
+
+.avatar{
+    float: left;
+    width: 30%;
+    padding: 0.5em;
+    border-radius: 1em;
+}
+
+.username{
+    text-transform: none;
+    text-shadow:
+            0 0 10px #d5c6af,
+    0 0 20px #fff,
+    0 0 30px #fff,
+    0 0 40px #ffddd6,
+    0 0 70px #ffcba0,
+    0 0 80px #ffc567,
+    0 0 100px #ffbe3c,
+    0 0 150px #ff7b08;
+    padding: 0.5em;
+}
+
+.info_box{
+    margin: 1em 0;
+    border: 1px solid lightsalmon;
+    border-radius: 8px;
+}
+
+.right_box{
+    /*transform: translateX(10%);*/
+}
+
+
+.content_box{
+    margin: 1em;
+}
+
+.li_line{
+    border-width: 1px 0;
+    border: 1px solid lightsalmon;
+    line-height: 2;
+    margin: -1px;
+    background: white;
+    padding: 5px;
+}
+
+.item_name{
+    font-weight: bolder;
+}
+
+.badge{
+    display: inline-block;
+    min-width: 10px;
+    padding: 5px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: #777;
+    border-radius: 10px;
+    background-color: #009999;
+    float: right;
+    width: 4em;
+    margin-top: 3px;
+    margin-right: 2em;
+}
+
+#cal-heatmap{
+    /*position: absolute;*/
+    transform: translateX(10%);
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+#heatmap_title{
+    text-align: center;
+    border-color: lightsalmon;
+    border-bottom: 1px solid lightsalmon;
+    padding-bottom: 0.5em;
+}
+
+.badge-date{
+    width: 8em;
+}
+
+.cover{
+    width: 100%;
+    max-height: 15em;
+    object-fit: cover;
+}
+
+.danger-zone-title{
+    border-bottom: 1px solid #f80000d6;
+    text-align: center;
+    padding-bottom: 0.5em;
+}
+
+.danger-zone{
+    border: 1px solid #f80000d6;
+}
+
+.danger-item{
+    cursor: pointer;
+}
+
+.danger-item:hover{
+    color: red;
+}
+
+

@@ -1,0 +1,62 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改密码</title>
+
+    <!-- Style css-->
+    <link href={% static "css/style.css" %} rel="stylesheet">
+
+    <!-- Bootstrap Css v3.3.7 -->
+    <link href={% static "css/bootstrap.min.css" %} rel="stylesheet">
+
+    <!--DIY-->
+    <link href={% static "css/giggle.css" %} rel="stylesheet">
+    <link href={% static "css/changeInfo.css" %} rel="stylesheet">
+
+</head>
+
+<body>
+<section
+        class="appoinment-section login-section"
+>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="appoinment-form">
+                    <form id="auth" action="\user\delete-account\" method="post">
+                        {% csrf_token %}
+
+                        <div class="row">
+
+                            <div class="title">
+                                <span class="title-font">确认密码</span><br/>
+                            </div>
+                            <div class="box">
+                                <input
+                                        class="pwd"
+                                        type="password"
+                                        placeholder="Password"
+                                        name="pwd"
+                                        {#                                                class="pwd_box"#}
+                                        required="required"{# 不能为空 #}
+                                        title="需包含大写字母、小写字母、标点符号和特殊字符中的至少三种，位数为8-16位"
+                                        pattern="^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\W_]+$)(?![a-z0-9]+$)(?![a-z\W_]+$)(?![0-9\W_]+$)[a-zA-Z0-9\W_]{8,16}$"
+                                ><br/>
+                            </div>
+                            <div id="submit_button">
+                                <button type="submit" class="theme-btn-2" style="width: 10em;font-size: 1.3rem"
+                                        id="register" onclick="close()">确认删除
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+
+</html>

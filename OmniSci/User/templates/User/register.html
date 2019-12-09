@@ -1,0 +1,275 @@
+{% extends "page_template.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    <!--User-->
+    <link href={% static "css/giggle.css" %} rel="stylesheet">
+    {#    <link href={% static "css/crop.css" %} rel="stylesheet">#}
+{% endblock %}
+
+{% block page-content %}
+    <!--Appoinment Section Start-->
+    <section class="appoinment-section login-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="section-title-left mb-15">
+                        <h2>注册</h2>
+                    </div>
+                    <div class="appoinment-form">
+                        {#                        <form id="auth" method="post" onsubmit="return pwdCheck()">#}
+                        <form id="auth" method="post" action="javascript:0">
+                            {% csrf_token %}
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="email">
+                                        <span>用户名</span><sup id="star">*</sup>
+                                        <input type="text" autofocus
+                                               placeholder="Name here"
+                                               name="c_name"
+                                               class="email_box"
+                                               pattern="^[\u4e00-\u9fa5a-zA-Z0-9]{1,14}$"
+                                                {# 格式检查 #}
+                                               title="中文字符(不超过7个字符),大小写字母及数字(不超过14个字符)"
+                                               required="required"
+                                                {# 不能为空 #}
+                                               style="width: 15em;height: 2em;left: 7.5em">
+                                    </div>
+                                    <div class="email">
+                                        <span>邮箱</span><sup id="star">*</sup>
+                                        <input type="email"
+                                               placeholder="Email here"
+                                               name="c_email"
+                                               class="email_box"
+                                               required="required"
+                                                {# 不能为空 #}
+                                               style="width: 15em;height: 2em;left: 7.5em">
+                                    </div>
+                                    <div class="pwd">
+                                        <span>密码</span><sup id="star">*</sup>
+                                        <input
+                                                type="password"
+                                                placeholder="Password"
+                                                name="c_pwd"
+                                                class="pwd_box"
+                                                required="required"
+                                                {# 不能为空 #}
+                                                title="需包含大写字母、小写字母、标点符号和特殊字符中的至少三种，位数为8-16位"
+                                                pattern="^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\W_]+$)(?![a-z0-9]+$)(?![a-z\W_]+$)(?![0-9\W_]+$)[a-zA-Z0-9\W_]{8,16}$"
+                                        ><br/>
+                                    </div>
+                                    <div class="pwd">
+                                        <span>重复密码</span><sup id="star">*</sup>
+                                        <input
+                                                type="password"
+                                                placeholder="Password Again"
+                                                name="c_pwd2"
+                                                class="pwd_box"
+                                                required="required"
+                                                {# 不能为空 #}
+                                                title="需与上一行输入的密码一致"
+                                        ><br/>
+                                    </div>
+                                    <div class="pwd">
+                                        <span>验证码</span><sup id="star">*</sup>
+                                        <input
+                                                type="text"
+                                                placeholder="Security code"
+                                                name="auth"
+                                                class="pwd_box"
+                                                style="width: 10em;height: 2em;left: 7.5em"
+                                                required="required"
+                                                {# 不能为空 #}
+                                                pattern="[0-9]{6}"
+                                        >
+                                        <button type="button" class="theme-btn-3" href="#" id="author" onclick="send()">
+                                            发送验证码
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <span>性别</span>
+                                                    <input type="radio" name="sex" id="female" class="sex_box"
+                                                           value=0>
+                                                    <label for="female" class="sex_box"><span
+                                                            class="thin-font">女</span></label>
+                                                    <input type="radio" name="sex" id="male" class="sex_box"
+                                                           value=1>
+                                                    <label for="female" class="sex_box"><span
+                                                            class="thin-font">男</span></label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12" id="age-row">
+                                                    <span>年龄</span>
+                                                    <input
+                                                            type="text"
+                                                            placeholder="Age"
+                                                            name="age"
+                                                            pattern="[0-9]{1,2}"
+                                                            class="age_box"
+                                                            style="width: 5em;height: 2em"><br/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" id="upload-avatar">
+                                            <button type="button" class="theme-btn-2" id="avatar-button"
+                                                    onclick="upload_avatar()">
+                                                <span>+</span> 上传头像
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <span>自我介绍</span>
+                                            <textarea placeholder="Description here" name="q_msg"
+                                                      style="height: 9em"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {#                            <div id="submit_button">#}
+                                    <div class="col-md-offset-5">
+                                        <button type="button" class="theme-btn-2" style="width: 10em" id="register">注册
+                                        </button>
+                                    </div>
+                                    {#                            </div>#}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Appoinment Section End-->
+{% endblock %}
+<!--Google map Section Start-->
+
+
+<!-- All JavaScript files
+================================================== -->
+
+{% block js %}
+    <script src={% static "js/giggle.js" %}></script>
+    <script src={% static "js/cropbox.js" %}></script>
+    <script src={% static "layer/layer.js" %}></script>
+    <script src={% static "js/register.js" %}></script>
+    <script type="text/javascript">
+        //表单提交
+        document.getElementById('register').onclick = () => {
+
+            if (!$('#auth')[0].checkValidity()) {
+                //前端格式检查
+                $("#auth")[0].reportValidity();
+            } else if(!codeCheck()){
+                alert("验证码错误，请登录邮箱确认后填写");
+            }else if (pwdCheck()) {
+                //构造要发送的数据
+                let formData = new FormData($('#auth')[0])
+                if (layerData.get('image')) {
+                    // console.log('image',layerData.get('image'));
+                    formData.append('image', layerData.get('image'));
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/user/register/',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'html',
+                    cache: false,
+                    beforeSend: function (xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                    },
+                    error: function (request) {
+                        alert("Connection error:" + request.error);
+                    },
+                    success: function (data) {
+                        //创建一个新的文档，刷新页面
+                        const newDoc = document.open("text/html", "replace");
+                        newDoc.write(data);
+                        newDoc.close();
+                    }
+                });
+            }
+        }
+
+        //局部刷新，发送验证码邮件
+        const send = () => {
+            let wait = 60;
+            const button = document.getElementById("author");
+            const time = () => {
+                if (wait == 0) {
+                    button.removeAttribute("disabled");
+                    button.innerText = "发送验证码";
+                } else {
+                    // console.log('hit', wait);
+                    button.setAttribute("disabled", true);
+                    button.innerText = wait.toString() + " 重新发送";
+                    wait--;
+                    setTimeout(function () {
+                            time()
+                        },
+                        1000)
+                }
+            }
+
+            time();
+            $.ajax({
+                cache: false,
+                type: 'POST',
+                url: '/user/send/',
+                data: $('#auth').serialize(),
+                async: false,
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                error: function (request) {
+                    alert("Connection error:" + request.error);
+                },
+                success: function (data) {
+                    //console.log('hit',data);
+                    // console.log(data);
+                    const status = data.status;
+
+                    // console.log(status);
+                    if (status == 'success') {
+                        code = data.code.toString();
+                        // alert('Success');
+                        alert('发送成功,请登录你的邮箱查看验证码');
+
+                    } else {
+                        //逐行输出错误信息
+                        const msg = data.msg;
+                        const os = getOs();
+                        let br = '\r\n';
+                        let content = 'Fail';
+                        if (os == 'FF' || os == 'SF') {
+                            br = '\n';
+                        }
+                        for (const item in msg) {
+                            content += br;
+                            content += msg[item];
+                        }
+                        //confirm(content);
+                        alert(content);
+                        wait = 0;
+                    }
+
+                }
+            });
+
+        }
+    </script>
+{% endblock %}
+

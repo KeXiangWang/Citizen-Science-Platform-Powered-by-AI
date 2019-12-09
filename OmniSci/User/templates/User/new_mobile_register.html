@@ -1,0 +1,295 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'css_mobile/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css_mobile/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css_mobile/mobile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/new_mobile_login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/new_mobile_register.css' %}">
+    <title>OmniSci</title>
+</head>
+<body>
+<div class="container">
+    <!--进度条-->
+    <div class="row progress mb-2" style="height: 5px;" id="bar-0">
+        <div class="progress-bar" role="progressbar"
+             style="width: 25%; background: linear-gradient(to right, #FEF96B, #F7BF63)" aria-valuenow="25"
+             aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <div class="row progress mb-2" style="height: 5px;display: none" id="bar-1">
+        <div class="progress-bar" role="progressbar"
+             style="width: 50%; background: linear-gradient(to right, #FEF96B, #F08158)" aria-valuenow="25"
+             aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <div class="row progress mb-2" style="height: 5px;display: none;" id="bar-2">
+        <div class="progress-bar" role="progressbar"
+             style="width: 75%; background: linear-gradient(to right, #FEF96B, #F04358)" aria-valuenow="25"
+             aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <div class="row progress mb-2" style="height: 5px;display: none;" id="bar-3">
+        <div class="progress-bar" role="progressbar"
+             style="width: 100%; background: linear-gradient(to right, #FEF96B, #F00058)" aria-valuenow="25"
+             aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <!--返回键-->
+    <div class="row justify-content-start align-items-center" id="back-btn" style="width: 25%">
+        <img src="{% static 'images/svg/left_arrow.svg' %}" class="col-auto p-0 ml-2" style="width: 1rem; height: 1rem">
+        <p class="text-muted col-auto ml-0 pl-0 my-auto">返回</p>
+    </div>
+    <!--输入-->
+    <div class="row justify-content-center mt-4">
+        <form class="col-10 needs-validation" id="register-form" novalidate>
+            <div id="step-0" class="m-0 p-0" style="">
+                <div class="form-group w-100">
+                    <label class="mb-0 text-muted" for="c_name">用户名 Username<sup id="star">*</sup></label>
+                    <input id="username" name="c_name"
+                           class="border-bottomresponsive form-control rounded-0 p-0 text-center is-invalid" required>
+                    <small class="form-text text-muted">
+                        需包含大写、小写字母及数字
+                    </small>
+                    <div class="invalid-feedback">
+                        请填入正确的用户名
+                    </div>
+                </div>
+                <div class="form-group w-100" id="email-box">
+                    <label class="mb-0 text-muted" for="c_email">邮箱 Email<sup id="star">*</sup></label>
+                    <input id="email" type="email" name="c_email"
+                           class="border-bottomresponsive form-control rounded-0 p-0 text-center" required>
+                    <div class="invalid-feedback">
+                        请输入正确的邮箱地址
+                    </div>
+                    <button type="button" id="send-code"
+                            class="btn btn-outline-theme bg-white btn-focus-0 rounded-50 p-0 mt-2 w-100">
+                        <small>发送验证码</small>
+                    </button>
+                </div>
+                <div class="form-group w-100">
+                    <label class="mb-0 text-muted" for="auth">验证码 Verification<sup id="star">*</sup></label>
+                    <input id="email_verification" name="auth"
+                           class="border-bottomresponsive form-control rounded-0 p-0 text-center" required>
+                    <div class="invalid-feedback" id="code-feedback">
+                        验证码错误
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <a class="rounded-circle mt-3 px-0 col-auto" style="height: 3rem; width: 3rem;" id="finish-step0">
+                        <img src="{% static 'images/svg/right_arrow.svg' %}" style="width: 100%;">
+                    </a>
+                </div>
+            </div>
+            <div id="step-1" class="m-0 p-0" style="display: none">
+                <div class="form-group w-100">
+                    <label class="mb-0 text-muted" for="c_pwd">密码 Password<sup id="star">*</sup></label>
+                    <input id="password" type="password" name="c_pwd"
+                           class="border-bottomresponsive form-control rounded-0 p-0 text-center" required>
+                    <small class="text-muted form-text">
+                        需包含大写、小写字母、标点符号和特殊字符中的至少三种，长度8-16位
+                    </small>
+                    <div class="invalid-feedback">
+                        请输入正确格式的密码
+                    </div>
+                </div>
+                <div class="form-group w-100">
+                    <label class="mb-0 text-muted" for="c_pwd2">确认密码 Check Password<sup id="star">*</sup></label>
+                    <input id="check_password" type="password" name="c_pwd2"
+                           class="border-bottomresponsive form-control rounded-0 p-0 text-center" required>
+                    <div class="invalid-feedback">
+                        密码不一致, 请重新输入
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <a class="rounded-circle mt-3 px-0 col-auto" style="height: 3rem; width: 3rem;" id="finish-step1">
+                        <img src="{% static 'images/svg/right_arrow.svg' %}" style="width: 100%;">
+                    </a>
+                </div>
+            </div>
+            <div id="step-2" class="m-0 p-0" style="display: none">
+                <h5>完善个人信息</h5>
+                <label class="text-muted w-100">性别 Gender</label>
+                <div class="custom-control custom-radio">
+                    <input id="female" type="radio" name="sex" value=0 class="custom-control-input">
+                    <label class="mb-0 text-muted custom-control-label" for="female">
+                        <small>女 Female</small>
+                    </label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input id="male" type="radio" name="sex" value=1 class="custom-control-input">
+                    <label class="mb-0 text-muted custom-control-label" for="male">
+                        <small>男 Male</small>
+                    </label>
+                    {#                        <div class="invalid-feedback">#}
+                    {#                            请选择性别#}
+                    {#                        </div>#}
+                </div>
+
+                <div class="form-group" style="margin-top: .5rem;">
+                    <label class="text-muted mb-0" for="age">年龄 Age</label>
+                    <input id="age" name="age" class="border-bottomresponsive form-control rounded-0 p-0 text-center">
+                    <div class="invalid-feedback">
+                        请输入正确的年龄
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <a class="rounded-circle mt-3 px-0 col-auto" style="height: 3rem; width: 3rem;" id="finish-step2">
+                        <img src="{% static 'images/svg/right_arrow.svg' %}" style="width: 100%;">
+                    </a>
+                </div>
+            </div>
+            <div id="step-3" class="m-0 p-0" style="display: none">
+                <h5>上传头像</h5>
+                <div class="row form-group justify-content-center">
+                    <input type="file" class="col-auto" style="display: none" id="avatar-input"/>
+                    <a class="btn btn-outline-theme rounded-circle p-0 col-auto" style="height: 5rem; width: 5rem;"
+                       id="avatar-upload">
+                        <img id="avatar-preview" src="{% static 'images/svg/add.svg' %}" class="p-0 upload"/>
+                    </a>
+                    <div class="invalid-feedback">
+                        请上传正确格式的图片
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <a class="rounded-circle mt-3 px-0 col-auto" style="height: 3rem; width: 3rem;" id="finish-step3">
+                        <img src="{% static 'images/svg/right_arrow.svg' %}" style="width: 100%;">
+                    </a>
+                </div>
+                {#                <div class="row justify-content-center">#}
+                {#                    <div style="width: 13rem;height: 13rem;display: none" id="avatar-box">#}
+                {#                        <img src="" id="avatar-preview" class="p-0">#}
+                {#                    </div>#}
+                {#                </div>#}
+            </div>
+        </form>
+    </div>
+
+    {# foot #}
+    {#    <div class="row position-fixed fixed-bottom justify-content-center foot">#}
+    {#        <div class="col-12 text-center text-muted">#}
+    {#            <p class="m-0">#}
+    {#                <small>Copyright &copy; OmniSci 2019.</small>#}
+    {#            </p>#}
+    {#            <div class="w-100 m-0 p-0"></div>#}
+    {#            <p>#}
+    {#                <small>All rights reserved.</small>#}
+    {#            </p>#}
+    {#        </div>#}
+    {#    </div>#}
+    {% csrf_token %}
+    <script type="text/javascript" src="{% static 'js_mobile/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js_mobile/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/giggle.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/new_mobile_register.js' %}"></script>
+    <script type="text/javascript">
+        $('#send-code').click(function () {
+            hide_feedback();
+
+            if (validCheck_0()) {
+
+                //倒计时
+                let wait = 60;
+                const button = document.getElementById("send-code");
+                const time = () => {
+                    if (wait == 0) {
+                        button.removeAttribute("disabled");
+                        button.innerText = "发送验证码";
+                    } else {
+                        // console.log('hit', wait);
+                        button.setAttribute("disabled", true);
+                        button.innerText = wait.toString() + "重新发送";
+                        wait--;
+                        setTimeout(function () {
+                                time()
+                            },
+                            1000)
+                    }
+                };
+
+                let send_data = new FormData();
+                send_data.append('c_email', $("input[name='c_email']").val());
+                send_data.append('c_name', $("input[name='c_name']").val());
+                send_data.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+                console.log(send_data.get('csrfmiddlewaretoken'));
+
+                time();
+                //发送邮件
+                $.ajax({
+                    cache: false,
+                    type: 'POST',
+                    url: '/user/send/',
+                    data: send_data,
+                    contentType: false,
+                    processData: false,
+                    async: false,
+                    // beforeSend: function (xhr, settings) {
+                    //     xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                    // },
+                    error: function (request) {
+                        alert("Connection error:" + request.error);
+                        wait = 0;
+                    },
+                    success: function (data) {
+                        //console.log('hit',data);
+                        // console.log(data);
+                        const status = data.status;
+                        // alert(status);
+
+                        if (status == 'success') {
+                            code = data.code.toString();
+                            // alert('Success');
+                            alert('发送成功,请登录你的邮箱查看验证码');
+                        } else {
+                            //逐行输出错误信息
+                            const msg = data.msg;
+                            // const os = getOs();
+                            // let br = '\r\n';
+                            // let content = 'Fail';
+                            // if (os == 'FF' || os == 'SF') {
+                            //     br = '\n';
+                            // }
+                            // for (const item in msg) {
+                            //     content += br;
+                            //     content += msg[item];
+                            // }
+                            //confirm(content);
+                            // alert('先这样显示一下，有空改',content);
+                            $('#email').addClass('is-invalid');
+                            $('#email-box > div')[0].innerText = msg[0];
+                            console.log(msg[0]);
+                            wait = 0;
+                        }
+                    }
+                });
+            }
+        })
+
+    </script>
+    <script type="text/javascript">
+        $('#finish-step3').click(function () {
+            registerData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
+            $.ajax({
+                cache: false,
+                type: 'POST',
+                url: '/user/register/',
+                data: registerData,
+                dataType: 'html',
+                contentType: false,
+                processData: false,
+                async: false,
+
+                error: function (request) {
+                    alert("Connection error:" + request.error);
+
+                },
+                success: function (data) {
+                    // alert("Success");
+                    const newDoc = document.open("text/html", "replace");
+                    newDoc.write(data);
+                    newDoc.close();
+                }
+            });
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+.side-bar {
+    z-index: 10002;
+    float: left;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 60%;
+    margin-left: -60%;
+    display: block;
+    -moz-transition: margin-left 0.5s;
+    transition: margin-left 0.5s;
+}
+
+#page-overlay, #page-overlay-confirm {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index:10001;
+    display: none;
+    background-color:rgba(0,0,0,0.7);
+}
+
+#page-overlay-confirm {
+    z-index:10003;
+}
+
+
+* {
+    touch-action: pan-y;
+}
+
+.btn-focus-border-bottom:focus{
+    border-bottom: 1px solid #fa631c;
+}
+
+/*底栏*/
+.bottom-item

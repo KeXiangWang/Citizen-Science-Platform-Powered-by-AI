@@ -1,0 +1,26 @@
+
+.big-img{
+    height: 175px;
+    width: 290px;
+    object-fit: cover;
+}
+.theme-btn-1{
+    padding-left: 0;
+}
+.event-content *{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap
+}
+/* 控制在小屏幕上的显示效果 */
+@media (max-width: 991px){
+   .featured-event .event-thumb img{
+       min-width: 290px;
+   }
+    .featured-event{
+        width: 75%;
+        margin-left: 12%;
+        margin-right: 12%;
+    }
+}
+/* end */

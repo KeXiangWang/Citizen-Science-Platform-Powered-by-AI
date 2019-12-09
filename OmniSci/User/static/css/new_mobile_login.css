@@ -1,0 +1,14 @@
+
+.border-bottomresponsive{
+    border-left: 0;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid rgba(253,139,84,.5) ;
+}
+.border-bottomresponsive:focus{
+    border-left: 0;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid #fa631c;
+    box-shadow: 0 0 0 0 rgba(0,0,0,0) !important;
+}

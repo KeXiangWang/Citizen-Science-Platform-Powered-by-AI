@@ -1,0 +1,354 @@
+{% extends "page_template.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" href={% static "css/project_panel.css" %}>
+    <link rel="stylesheet" href={% static "css/font-awesome.css" %}>
+{% endblock %}
+
+{% block page-content %}
+    <div class="container body">
+        <div class="col-md-12 col-xs-12">
+            <div class="col-md-6">
+                <div class="text-size " style = "font-size:2rem;height:3rem">
+                    <span>{{ p_name }}</span>
+                </div>
+                <div class="event-thumb">
+                    <img class="project-img" src={{ p_image }} alt="">
+                </div>
+
+            </div>
+            <div class="col-md-5"  style="position: static">
+                <div class="text-size " style = "font-size:2rem;height:2rem">
+                </div>
+                <div class="row" style="padding-top: 10px">
+                    <h4 style="display: inline-block">项目发布时间:</h4>
+                    <a><span class="number">{{ p_time }}</span></a>
+                </div>
+                <div class="row" style="padding-top: 10px">
+                    <h4 style="display: inline-block">今日参与人数:</h4>
+                    <a><span class="number">{{ today_people }}</span></a>
+                </div>
+                <div class="row" style="padding-top: 10px">
+                    <h4 style="display: inline-block">总参与人数:</h4>
+                    <a><span class="number">{{ all_people }}</span></a>
+                </div>
+                <div class="row" style="padding-top: 10px">
+                    <h4 style="display: inline-block">数据量:</h4>
+                    <a><span class="number">{{ data_quantity }}</span></a>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-xs-4" style="height: 8rem;padding-top: 2rem;padding-left: 0">
+                    <a href="/project/download/{{ pid }}" class="download-size " style="font-size: 1.3rem"><em class="icon-download-alt"></em>&nbsp;下载数据 </a>
+                </div>
+                <div class="col-md-4 col-xs-4" style="height: 8rem;padding-top: 2rem;padding-left: 0">
+                    <a href="/project/audition/{{ pid }}" class="download-size " style="font-size: 1.3rem"><em class="icon-wrench"></em>&nbsp;审核数据 </a>
+                </div>
+                  <div class="col-md-4 col-xs-4" style="height: 8rem;padding-top: 2rem;padding-left: 0">
+                    <a href="#" onclick="del()" class="download-size" style="font-size: 1.3rem"><em class="icon-trash"></em>&nbsp;删除项目</a>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-xs-12">
+            <div class="col-md-6 col-xs-12 box-border">
+                <div class="slate info_box">
+                    <div class="page-header">
+                        <h2><em class="icon-list-alt pull-right"></em><span>项目介绍</span></h2>
+                    </div>
+                    <div class="word-size " style="word-break: break-all" ondblclick="ShowElement(this)">
+                        {{ p_intro_200 }}
+                        {% ifnotequal p_intro_other '' %}
+                            <div id="collapseOne" style="word-break: break-all" class="panel-collapse collapse">
+                                {{ p_intro_other }}
+                            </div>
+                        {% endifnotequal %}
+                    </div>
+                {% ifnotequal p_intro_other '' %}
+                 <a class="view-color" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                     View more
+                 </a>
+                {% endifnotequal %}
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12 box-border">
+                <div class="slate">
+                    <div class="page-header">
+                        <h2><i class="icon-paper-clip pull-right"></i><span>基本信息</span></h2>
+                    </div>
+                    <table class="orders-table table">
+                        <tbody>
+                        <tr>
+                            <td>项目id</td>
+                            <td>{{ pid }}</td>
+                        </tr>
+                        <tr>
+                            <td>项目领域</td>
+                            <td>{{ p_area }}</td>
+                        </tr>
+                        <tr>
+                            <td>项目模型</td>
+                            <td>{{ p_model }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-xs-12">
+            <div class="col-md-6 col-xs-12 box-border">
+                <div class="slate">
+                    <div class="page-header">
+                        <h2><em class="icon-signal pull-right"></em><span>项目近30日提交数据趋势</span></h2>
+                    </div>
+                    <div id="container" style="margin-top:0;height: 400px"></div>
+                    <script type="text/javascript" src={% static "js/echarts.min.js" %}></script>
+                    <script type="text/javascript">
+                        var dom = document.getElementById("container");
+                        var myChart = echarts.init(dom);
+                        option = null;
+                        var data ={{ p_data|safe }};
+                        var t ={{ p_data|safe }};
+                        t.sort(function (a, b) {
+                            return a - b;
+                        });
+                        var dataAxis = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
+                        dataAxis.reverse();
+                        // var data = [220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149, 210, 122, 133, 334, 198, 123, 125, 220];
+                        var yMax = t[t.length - 1];
+                        var dataShadow = [];
+
+                        for (var i = 0; i < data.length; i++) {
+                            dataShadow.push(yMax);
+                        }
+                        option = {
+                            xAxis: {
+                                data: dataAxis,
+                                axisLabel: {
+                                    inside: false,
+                                    textStyle: {
+                                        color: '#000000'
+                                    }
+                                },
+                                axisTick: {
+                                    show: false
+                                },
+                                axisLine: {
+                                    show: false
+                                },
+                                z: 10
+                            },
+                            yAxis: {
+                                axisLine: {
+                                    show: false
+                                },
+                                axisTick: {
+                                    show: false
+                                },
+                                axisLabel: {
+                                    textStyle: {
+                                        color: '#999'
+                                    }
+                                }
+                            },
+                            dataZoom: [
+                                {
+                                    type: 'inside'
+                                }
+                            ],
+                            series: [
+                                { // For shadow
+                                    type: 'bar',
+                                    itemStyle: {
+                                        normal: {color: 'rgba(0,0,0,0.05)'}
+                                    },
+                                    barGap: '-100%',
+                                    barCategoryGap: '40%',
+                                    data: dataShadow,
+                                    animation: false
+                                },
+                                {
+                                    type: 'bar',
+                                    itemStyle: {
+                                        normal: {
+                                            color: new echarts.graphic.LinearGradient(
+                                                0, 0, 0, 1,
+                                                [
+                                                    {offset: 0, color: '#fdffaf'},
+                                                    {offset: 0.5, color: '#f0d473'},
+                                                    {offset: 1, color: '#f0d473'}
+                                                ]
+                                            )
+                                        },
+                                        emphasis: {
+                                            color: new echarts.graphic.LinearGradient(
+                                                0, 0, 0, 1,
+                                                [
+                                                    {offset: 0, color: '#f0d473'},
+                                                    {offset: 0.7, color: '#f0d473'},
+                                                    {offset: 1, color: '#fffbe6'}
+                                                ]
+                                            )
+                                        }
+                                    },
+                                    data: data
+                                }
+                            ]
+                        };
+
+                        // Enable data zoom when user click bar.
+                        var zoomSize = 6;
+                        myChart.on('click', function (params) {
+                            console.log(dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)]);
+                            myChart.dispatchAction({
+                                type: 'dataZoom',
+                                startValue: dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)],
+                                endValue: dataAxis[Math.min(params.dataIndex + zoomSize / 2, data.length - 1)]
+                            });
+                        });
+                        if (option && typeof option === "object") {
+                            myChart.setOption(option, true);
+                        }
+                    </script>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12 box-border">
+                <div class="slate">
+                    <div class="page-header">
+                        <h2><i class="icon-group  pull-right"></i><span>Latest Partner</span></h2>
+                    </div>
+                    <table class="orders-table table" style="margin-top: 4rem">
+                        <tbody>
+
+                        {% for record in p_partner8 %}
+                            {% ifequal record.1 1 %}
+                                <tr>
+                                    <td><a href="javascript:void(0)">{{ record.3 }}</a> <span class="label label-success">已审核</span></td>
+                                    <td>{{ record.2 }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td><a href="/project/audition/{{ pid }}">{{ record.3 }}</a> <span class="label label-danger">未审核</span></td>
+                                    <td>{{ record.2 }}</td>
+                                </tr>
+                            {% endifequal %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% ifnotequal p_partner_other '' %}
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                        <table class="orders-table table">
+                            <tbody>
+                             {% for record in p_partner_other %}
+                                 {% ifequal record.1 1 %}
+                                <tr>
+                                    <td><a href="javascript:void(0)">{{ record.3 }}</a> <span class="label label-success">已审核</span></td>
+                                    <td>{{ record.2 }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td><a href="#">{{ record.3 }}</a> <span class="label label-danger">未审核</span></td>
+                                    <td>{{ record.2 }}</td>
+                                </tr>
+                            {% endifequal %}
+                        {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <a class="view-color" id="view2" data-toggle="collapse" data-parent="#accordion"
+                       href="#collapseTwo">
+                        View more
+                    </a>
+                 {% endifnotequal %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+<!-- All JavaScript files
+================================================== -->
+
+{% block js %}
+    <script type="text/javascript">
+        function ShowElement(element) {
+            var oldhtml ={{ p_intro|safe}}.toString();
+            var newobj = document.createElement('textarea');
+
+            newobj.type = 'text';
+            newobj.value = oldhtml;
+            newobj.style.height = '9rem';
+            newobj.style.width = '100%';
+            newobj.onblur = function () {
+                element.innerHTML = this.value == oldhtml ? oldhtml : this.value;
+                if (element.innerHTML.length==0){
+                    element.innerHTML='Can not be empty!';
+                    this.value='Can not be empty!';
+                }else{
+                    if(element.innerHTML.length>2000){
+                        alert(element.innerHTML.length+"个字符，项目简介不能超过2000！")
+                        this.value=oldhtml;
+                        element.innerHTML=oldhtml;                    }
+                }
+                element.setAttribute("ondblclick", "ShowElement(this);");
+                $.ajax({
+                    'url': '/project/update/',
+                    'type': 'post',
+                    'data': {
+                        'text': this.value,
+                        'pid':{{ pid }}
+                    },
+                    beforeSend: function (xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                    },
+                    success:function () {
+                        location.reload();
+                    }
+                });
+
+            };
+            element.innerHTML = '';
+            element.appendChild(newobj);
+            newobj.setSelectionRange(0, oldhtml.length);
+            newobj.focus();
+            newobj.parentElement.setAttribute("ondblclick", "")
+        }
+
+        function del() {
+            var msg = "您真的要删除项目吗？";
+            if (confirm(msg)==true){
+               $.ajax({
+                    'url': '/project/delete/',
+                    'type': 'post',
+                     async:false,
+                    'data': {
+                        'pid':{{ pid }}
+                    },
+                    beforeSend: function (xhr, settings) {
+                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                    },
+                    success:function (data) {
+                        // var current_full_url = window.document.location.href;
+                        // var path_name = window.document.location.pathname;
+                        // var pos = current_full_url.indexOf(path_name);
+                        // var host_path = current_full_url.substring(0,pos);
+                        // var new_path = host_path + "/project/domain/" + data;
+                        //
+                        new_url = "http://"+window.location.host + "/project/domain/"+data;
+                        window.location.href=new_url;
+                        window.location.reload;
+                    },
+                    error:function(msg){
+                      alert(msg)
+                    }
+                });
+            }else{
+                return false;
+            }
+        }
+    </script>
+{% endblock %}

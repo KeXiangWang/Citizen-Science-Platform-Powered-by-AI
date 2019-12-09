@@ -1,0 +1,157 @@
+{% load staticfiles %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>头像裁剪</title>
+    <link rel="stylesheet" href={% static "css/crop.css" %} type="text/css"/>
+    <link href={% static "css/bootstrap.min.css" %} rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-5">
+                <div class="imageBox">
+                    <div class="thumbBox"></div>
+                    <div class="spinner" style="display: none"></div>
+                </div>
+                <div class="action">
+                    <!-- <input type="file" id="file" style=" width: 200px">-->
+                    <div class="new-contentarea tc"><a href="javascript:void(0)" class="upload-img">
+                        <label for="upload-file">选择本地头像</label>
+                    </a>
+                        <input type="file" class="" name="upload-file" id="upload-file"/>
+                    </div>
+                    <input type="button" id="upload" class="Btnsty_peyton" value="上传">
+                    <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+">
+                    <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-">
+                </div>
+            </div>
+            <div class="col-md-3" style="margin-left: 2.5em">
+                <div class="row cropped" id="cropBox">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{#<script src={% static "js/bootstrap.min.js" %}></script>#}
+<script type="text/javascript" src={% static "js/jquery-1.11.1.min.js" %}></script>
+<script type="text/javascript" src={% static "js/cropbox.js" %}></script>
+<script type="text/javascript">
+
+    $(window).load(function () {
+
+        let options =
+            {
+                thumbBox: '.thumbBox',
+                spinner: '.spinner',
+                imgSrc: ''
+            }
+        let cropper = $('.imageBox').cropbox(options);
+
+        let img = '';
+        $('#upload-file').on('change', function () {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                options.imgSrc = e.target.result;
+                cropper = $('.imageBox').cropbox(options);
+                //bug,最开始图片没有加载出来，仿佛是dataUrl不完整
+                getImg();
+            }
+
+            reader.readAsDataURL(this.files[0]);
+
+            console.log('files', this.files);
+
+        })
+
+        $('#upload').on('click', function () {
+            //根据canvas创建blob
+            let imgBlob = cropper.getBlob();
+            parent.layerData.append("image",imgBlob,'avatar.png');
+
+            //将上传的照片回显
+            if(parent.document.getElementById('avatar-button')){
+                parent.document.getElementById('avatar-button').remove();
+            }
+            if(parent.document.getElementById('avatar-preview')){
+                parent.document.getElementById('avatar-preview').remove();
+            }
+
+            let crop_box = parent.document.getElementById('upload-avatar');
+            let col = document.createElement('div');
+            let imgBox = document.createElement('img');
+
+            imgBox.setAttribute('align', 'absmiddle');
+            imgBox.setAttribute('class', 'preview');
+            imgBox.setAttribute('id', 'avatar-preview');
+            imgBox.setAttribute('src', cropper.getDataURL());
+            imgBox.setAttribute("onclick","upload_avatar()");
+
+            col.append(imgBox);
+            crop_box.appendChild(col);
+
+            //关闭当前层
+            let index = parent.layer.getFrameIndex(window.name);
+            console.log(index);
+            parent.layer.close(index);
+        })
+
+
+        function addImg(size, url) {
+            let crop_box = document.getElementById('cropBox');
+            let col = document.createElement('div');
+            let imgBox = document.createElement('img');
+            let para = document.createElement('p');
+            col.setAttribute("class", "col-md-12");
+
+            imgBox.setAttribute('align', 'absmiddle');
+            imgBox.setAttribute('class', 'preview');
+            imgBox.setAttribute('id', 'preview-' + size.toString());
+            imgBox.setAttribute('src', url);
+
+            para.innerHTML = size.toString() + 'px' + '*' + size.toString() + 'px';
+
+            col.append(imgBox);
+            col.append(para);
+
+            crop_box.appendChild(col);
+        }
+
+        function getImg() {
+            img = cropper.getDataURL();
+            console.log('hit', img);
+            $('.cropped').html('');
+            addImg(180, img);
+            addImg(128, img);
+            addImg(64, img);
+        }
+
+        //鼠标点击image框的事件
+        $(".imageBox").on("mouseup", function () {
+            getImg();
+        });
+
+        //滚轮滑动的事件
+        $('.imageBox').on('mousewheel',()=>{
+            getImg();
+        })
+
+        //缩放按钮被点击的事件
+        $('#btnZoomIn').on('click', function () {
+            cropper.zoomIn();
+            getImg();
+        })
+        $('#btnZoomOut').on('click', function () {
+            cropper.zoomOut();
+            getImg();
+        })
+    });
+</script>
+</body>
+</html>

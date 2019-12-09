@@ -1,0 +1,402 @@
+{% extends "page_template.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    <!--User-->
+    <link href={% static "css/mobile_profile.css" %} rel="stylesheet">
+    <link href={% static "bower_components/cal-heatmap/cal-heatmap.css" %} rel="stylesheet">
+{% endblock %}
+
+{% block page-content %}
+    <!--Volunteer Details Section Start-->
+    <section class="team-section volunteer-details">
+        <div class="mobile-container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="charity-volunteers-details info_box">
+                        <div class="volunteers-content">
+
+                            {#                            后端数据：头像地址#}
+
+                            <img class="avatar" src={{ base.avatar }}>
+                            <div class="row section-title-left content_box">
+
+                                {#                                后端数据：用户名#}
+
+                                <h2 class="mobile-name">
+                                    <span class="username">
+                                        {{ base.name }}
+                                    </span>
+                                </h2>
+                                <div class="mobile-label">
+                                <span class="mobile-badge">&nbsp;信誉&nbsp;{{ base.star }}</span>
+                                <span class="mobile-badge">&nbsp;参与&nbsp;{{ participate_projects | length }}</span>
+                                <span class="mobile-badge">&nbsp;发布&nbsp;{{ release_projects  | length }}</span>
+                                <span class="mobile-badge">&nbsp;提交&nbsp;<span id="total_upload"></span></span>
+                                </div>
+                                {#                                <h5>Lorem ipsum.</h5>#}
+                                {#                                <br/>#}
+                                <p><span><strong class="color-theme">自我介绍: </strong></span>
+                                    {% ifnotequal base.description '' %}
+                                        {{ base.description }}
+                                        {% else %}
+                                        他很懒，没有写自我介绍
+                                    {% endifnotequal %}
+                                    {#                                    <a href="#" class="theme-btn-1 color-theme">view more</a></p>#}
+                                <hr>
+                            </div>
+                            <div class="row content_box">
+                                <div class="volunteers-details-tags">
+
+                                    {#                                    后端数据：用户相关信息#}
+
+                                    <div>
+                                        <span class="mobile-span-first">邮箱</span>
+                                        <span class="mobile-span">
+                                            {% if base.email %}
+                                                {{ base.email }}
+                                            {% else %}
+                                                Secret
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span class="mobile-span-first">性别</span>
+                                        <span class="mobile-span">
+                                            {% ifequal base.sex True %}
+                                                男
+                                                {% else %}
+                                                {% ifequal base.sex False %}
+                                                    女
+                                                    {% else %}
+                                                    Secret
+                                                {% endifequal %}
+                                            {% endifequal %}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span class="mobile-span-first">年龄</span>
+                                        <span class="mobile-span">
+                                            {% if base.age %}
+                                                {{ base.age }}
+                                            {% else %}
+                                                Secret
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                    {#                                    <div class="tags-item">#}
+                                    {#                                        <span>身份</span>#}
+                                    {#                                        <span>#}
+                                    {#                                                {% ifequal type 'volunteer' %}#}
+                                    {#                                                    志愿者#}
+                                    {#                                                    {% else %}#}
+                                    {#                                                    发布者#}
+                                    {#                                                {% endifequal %}#}
+                                    {#                                            </span>#}
+                                    {#                                    </div>#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info_box danger-zone">
+                        <div class="danger-zone-title"><h1>信息修改</h1></div>
+                        <div class="mobile-label">
+
+                            {# 后端数据，统计项目相关 #}
+
+                            <div class="li_line danger-button">
+                                <i class="fa fa-user fa-lg fa-fw"></i>
+                                <span class="item_name danger-item" id="change-info">&nbsp;个人信息修改</span>
+                            </div>
+                            <div class="li_line danger-button">
+                                <i class="fa fa-key fa-lg fa-fw"></i>
+                                <span class="item_name danger-item" id="change-pwd">&nbsp;密码修改</span>
+                            </div>
+                            <div class="li_line danger-button">
+                                <i class="fa fa-trash-o fa-lg fa-fw"></i>
+                                <span class="item_name danger-item" id="delete-account">&nbsp;删除账户</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+{#                    <div class="info_box right_box">#}
+{#                        <div id="heatmap_title"><h3>提交记录</h3></div>#}
+{#                        <div id="cal-heatmap"></div>#}
+{#                    </div>#}
+                    <div class="info_box right_box">
+                        <div id="heatmap_title"><h1>最近活动</h1></div>
+                        <ul>
+
+                            {#                            与后端衔接时改成for循环的形式#}
+                            {% for item in activity %}
+                                <li class="li_line">
+                                    <i class="fa fa-file-image-o fa-lg fa-fw"></i>
+                                    {% ifequal item.type "upload" %}
+                                        <span class="item_name">&nbsp;项目
+                                            <a href="/project/detail/{{ item.id }}">
+                                                <span style="color: #ff4100">{{ item.project }}</span>
+                                            </a>提交照片
+                                        </span>
+                                    {% endifequal %}
+                                    {% ifequal item.type "join" %}
+                                        <span class="item_name">&nbsp;加入项目
+                                            <a href="/project/detail/{{ item.id }}/">
+                                                <span style="color: #ff4100">{{ item.project }}</span>
+                                            </a>
+                                        </span>
+                                    {% endifequal %}
+                                    {% ifequal item.type "assist" %}
+                                        <span class="item_name">&nbsp;参与项目
+                                            <a href="/project/detail/{{ item.id }}/">
+                                                <span style="color: #ff4100">{{ item.project }}</span>
+                                            </a>审查
+                                        </span>
+                                    {% endifequal %}
+
+                                    {% ifequal item.type "release" %}
+                                        <span class="item_name">&nbsp;发布项目
+                                            <a href="/project/detail/{{ item.id }}/">
+                                                <span style="color: #ff4100">{{ item.project }}</span>
+                                            </a>
+                                        </span>
+                                    {% endifequal %}
+
+                                    <span class="badge badge-date">{{ item.date }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="info_box right_box" id="participate_projects">
+                        <div id="heatmap_title"><h1>参与的项目</h1></div>
+
+                        <!--Team Section Start-->
+                        <section class="team-section color-b-g pb-40">
+                            <div class="container" style="transform: translateX(3%)">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                        <div class="owl-nav-one owl-column2" id="carousel-col2">
+                                            {% for item in participate_projects %}
+                                                <div class="blog-single">
+                                                    <a href="/project/detail/{{ item.id }}/">
+                                                        <div class="blog-thumb">
+                                                                <img src="{{ item.cover }}" alt="" class="cover">
+                                                        </div>
+                                                    </a>
+                                                    <div class="meta-date">
+                                                        <h4>
+                                                            <span>{{ item.date | date:"j" }}</span><br>{{ item.date | date:"N" }}
+                                                        </h4>
+                                                        {#                                                <h5><i class="icofont icofont-ui-messaging icon"></i>8</h5>#}
+                                                    </div>
+                                                    <div class="blog-content">
+                                                        <h3><a href="/project/detail/{{ item.id }}/"><span>{{ item.name }}</span></a></h3>
+                                                        <h5>{{ item.area | title }}</h5>
+                                                        <p>{{ item.desc }}</p>
+                                                        <a href="/project/detail/{{ item.id }}/" class="theme-btn-3">Read
+                                                            More</a>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="info_box right_box" id="release_projects">
+                        <div id="heatmap_title"><h1>发布的项目</h1></div>
+
+                        <!--Team Section Start-->
+                        <section class="team-section color-b-g pb-40">
+                            <div class="container" style="transform: translateX(3%)">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                        <div class="owl-nav-one owl-column2" id="carousel-col2">
+                                            {% for item in release_projects %}
+                                                <div class="blog-single">
+                                                    <a href="/project/detail/{{ item.id }}/">
+                                                        <div class="blog-thumb">
+                                                                <img src="{{ item.cover }}" alt="" class="cover">
+                                                        </div>
+                                                    </a>
+                                                    <div class="meta-date">
+                                                        <h4>
+                                                            <span>{{ item.date | date:"j" }}</span><br>{{ item.date | date:"N" }}
+                                                        </h4>
+                                                        {#                                                <h5><i class="icofont icofont-ui-messaging icon"></i>8</h5>#}
+                                                    </div>
+                                                    <div class="blog-content">
+                                                        <h3><a href="/project/detail/{{ item.id }}/"><span>{{ item.name }}</span></a></h3>
+                                                        <h5>{{ item.area | title }}</h5>
+                                                        <p>{{ item.desc }}</p>
+                                                        <a href="/project/detail/{{ item.id }}/" class="theme-btn-3">Read
+                                                            More</a>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="info_box right_box" id="assist_projects">
+                        <div id="heatmap_title"><h3>协助审核的项目</h3></div>
+
+                        <!--Team Section Start-->
+                        <section class="team-section color-b-g pb-40">
+                            <div class="container" style="transform: translateX(3%)">
+                                <div class="row">
+                                    <div class="col-md-7">
+
+                                        <div class="owl-nav-one owl-column2" id="carousel-col2">
+                                            {% for item in f %}
+                                                <div class="blog-single">
+                                                    <a href="/project/detail/{{ item.id }}/">
+                                                        <div class="blog-thumb">
+                                                                <img src="{{ item.cover }}" alt="" class="cover">
+                                                        </div>
+                                                    </a>
+                                                    <div class="meta-date">
+                                                        <h4>
+                                                            <span>{{ item.date | date:"j" }}</span><br>{{ item.date | date:"N" }}
+                                                        </h4>
+                                                        {#                                                <h5><i class="icofont icofont-ui-messaging icon"></i>8</h5>#}
+                                                    </div>
+                                                    <div class="blog-content">
+                                                        <h3><a href="/project/detail/{{ item.id }}/"><span>{{ item.name }}</span></a></h3>
+                                                        <h5>{{ item.area | title }}</h5>
+                                                        <p>{{ item.desc }}</p>
+                                                        <a href="/project/detail/{{ item.id }}/" class="theme-btn-3">Read
+                                                            More</a>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Team Section End-->
+
+    </div>
+    </div>
+    </div>
+    </div>
+    </section>
+    <!--Volunteer Details Section End-->
+{% endblock %}
+
+{% block js %}
+
+    {#    绘制heatmap#}
+    {#    cdn版本#}
+    {#    <script type="text/javascript" src="//d3js.org/d3.v3.min.js"></script>#}
+    {#    <script type="text/javascript" src="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.min.js"></script>#}
+    {#    本地版本#}
+    <script type="text/javascript" src={% static "bower_components/d3/d3.min.js" %}></script>
+    <script type="text/javascript" src={% static "bower_components/cal-heatmap/cal-heatmap.min.js" %}></script>
+
+    {#    修改信息#}
+    <script src={% static "layer/layer.js" %}></script>
+    <script type="text/javascript" src={% static "js/changeInfo.js" %}></script>
+    <script src={% static "js/giggle.js" %}></script>
+
+    <script type="text/javascript">
+        let len;
+        len = {{ release_projects | length }};
+        if (len == 0) {
+            document.getElementById("release_projects").style.display = "none";
+        } else {
+            document.getElementById("release_projects").style.display = "";
+        }
+
+        len = {{ participate_projects | length }};
+        if (len == 0) {
+            document.getElementById("participate_projects").style.display = "none";
+        } else {
+            document.getElementById("participate_projects").style.display = "";
+        }
+
+        len = {{ assist_projects | length }};
+        if (len == 0) {
+            document.getElementById("assist_projects").style.display = "none";
+        } else {
+            document.getElementById("assist_projects").style.display = "";
+        }
+        //let projects = {{ projects | safe }};
+        //const len = projects.length;
+
+
+    </script>
+
+{#    <script type="text/javascript">#}
+{#        let data_ori = {{ upload_record | safe }};#}
+{#        let datas = {};#}
+{#        let total = 0;#}
+{##}
+{#        for (let date in data_ori) {#}
+{#            if (data_ori[date] != 0) {#}
+{#                let timeStamp = (Date.parse(date)) / 1000;#}
+{#                datas[timeStamp] = data_ori[date];#}
+{#                total += data_ori[date];#}
+{#            }#}
+{#        }#}
+{##}
+{#        /**#}
+{#         *  这段代码用来将所有未出现的日期提交记录都补充为0#}
+{#         */#}
+{#        /*#}
+{#        let start = new Date("2019-1-1".replace(/-/g, "/"));#}
+{#        let end = new Date();#}
+{##}
+{#        do {#}
+{#            let startYML = start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate();#}
+{#            let timeStamp = (Date.parse(startYML)) / 1000;#}
+{#            if (!datas.hasOwnProperty(startYML)) {#}
+{#                datas[timeStamp] = 0;#}
+{#            }#}
+{#            start.setDate(start.getDate() + 1);#}
+{##}
+{#        } while (end >= start);#}
+{#        */#}
+{##}
+{#        //总提交次数#}
+{#        document.getElementById("total_upload").innerText = total;#}
+{##}
+        {#debug#}
+        {#console.log(datas)#}
+{##}
+{#        //绘制heatemap#}
+{#        let cal = new CalHeatMap();#}
+{#        cal.init({#}
+{#            //from 2019,0,1#}
+{#            start: new Date(2019, 0, 1),#}
+{#            data: datas,#}
+{#            domain: "month",#}
+{#            subDomain: "week",#}
+{#            subDomain: "x_day",#}
+{#            range: 6,#}
+{#            tooltip: true,#}
+{#            cellpadding: 3,#}
+{#            domainGutter: 15,#}
+{#            domainLabelFormat: "%m-%Y",#}
+{#            cellSize: 10,#}
+{#            // displayLegend: false#}
+{#        });#}
+{##}
+{#    </script>#}
+
+
+
+{% endblock %}

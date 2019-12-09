@@ -1,0 +1,256 @@
+{% extends "page_template.html" %}
+{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/project_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/project_category.css' %}">
+{% endblock %}
+
+{% block page-content %}
+    <!--Welcome Section Start-->
+    <section>
+        <div class="row clear-sides-10">
+            <div class="col-md-8">
+                <div class="row">
+                    <h2 class="sidebar-title" style="margin-left: 1.5em;">{{ domain_name }}</h2>
+                </div>
+                <div class="row">
+                    <div style="border:1px solid #fa631b;margin-bottom: 10px;margin-top: 10px; padding: 0;margin-left:15px;margin-right: 15px"></div>
+                </div>
+                <div class="row">
+                        <div class="col-md-4" id="domain_1" style="display: none;">
+                            <div class="featured-event" >
+                                <div class="event-thumb">
+                                    <a><img class="big-img" src="/static/images/loading.png" alt=""></a>
+                                    <div class="event-date">
+                                        <h4><span></span></h4>
+                                    </div>
+                                </div>
+                                <div class="event-content">
+                                    <h3><a><span></span></a></h3>
+                                    <div class="event-bar clearfix">
+                                        <ul>
+                                            <li>
+                                                <a href="javascript:void(0)">
+                                                    <i aria-hidden="true" class="fa fa-clock-o icon"></i>截止日期 <span>Ends at</span>
+                                                </a>
+                                            </li>
+                                            <li>
+
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a class="theme-btn-1" href="#">详情 <span>Read More</span>></a>
+                                    <a class="theme-btn-1" href="#">加入 <span>Join Now</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" id="domain_2" style="display: none;">
+                            <div class="featured-event">
+                                <div class="event-thumb">
+                                    <a><img class="big-img" src="/static/images/loading.png" alt=""></a>
+                                    <div class="event-date">
+                                        <h4><span></span></h4>
+                                    </div>
+                                </div>
+                                <div class="event-content">
+                                    <h3><a><span></span></a></h3>
+                                    <div class="event-bar clearfix">
+                                        <ul>
+                                            <li>
+                                                <a href="javascript:void(0)">
+                                                    <i aria-hidden="true" class="fa fa-clock-o icon"></i>截止日期 <span>Ends at</span>
+                                                </a>
+                                            </li>
+                                            <li>
+
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a class="theme-btn-1" href="#">详情 <span>Read More</span>></a>
+                                    <a class="theme-btn-1" href="#">加入 <span>Join Now</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" id="domain_3" style="display: none;">
+                            <div class="featured-event">
+                                <div class="event-thumb">
+                                    <a><img class="big-img" src="/static/images/loading.png" alt=""></a>
+                                    <div class="event-date">
+                                        <h4><span></span></h4>
+                                    </div>
+                                </div>
+                                <div class="event-content">
+                                    <h3><a><span></span></a></h3>
+                                    <div class="event-bar clearfix">
+                                        <ul>
+                                            <li>
+                                                <a href="javascript:void(0)">
+                                                    <i aria-hidden="true" class="fa fa-clock-o icon"></i>截止日期 <span>Ends at</span>
+                                                </a>
+                                            </li>
+                                            <li>
+
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a class="theme-btn-1" href="#">详情 <span>Read More</span>></a>
+                                    <a class="theme-btn-1" href="#">加入 <span>Join Now</span></a>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="row">
+                        <div class="col-md-4" id="domain_4" style="display: none;">
+                            <div class="featured-event">
+                                <div class="event-thumb">
+                                    <a><img class="big-img" src="/static/images/loading.png" alt=""></a>
+                                    <div class="event-date">
+                                        <h4><span></span></h4>
+                                    </div>
+                                </div>
+                                <div class="event-content">
+                                    <h3><a><span></span></a></h3>
+                                    <div class="event-bar clearfix">
+                                        <ul>
+                                            <li>
+                                                <a href="javascript:void(0)">
+                                                    <i aria-hidden="true" class="fa fa-clock-o icon"></i>截止日期 <span>Ends at</span>
+                                                </a>
+                                            </li>
+                                            <li>
+
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a class="theme-btn-1" href="#">详情 <span>Read More</span>></a>
+                                    <a class="theme-btn-1" href="#">加入 <span>Join Now</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" id="domain_5" style="display: none;">
+                            <div class="featured-event">
+                                <div class="event-thumb">
+                                    <a><img class="big-img" src="/static/images/loading.png" alt=""></a>
+                                    <div class="event-date">
+                                        <h4><span></span></h4>
+                                    </div>
+                                </div>
+                                <div class="event-content">
+                                    <h3><a><span></span></a></h3>
+                                    <div class="event-bar clearfix">
+                                        <ul>
+                                            <li>
+                                                <a href="javascript:void(0)">
+                                                    <i aria-hidden="true" class="fa fa-clock-o icon"></i>截止日期 <span>Ends at</span>
+                                                </a>
+                                            </li>
+                                            <li>
+
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a class="theme-btn-1" href="#">详情 <span>Read More</span>></a>
+                                    <a class="theme-btn-1" href="#">加入 <span>Join Now</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" id="domain_6" style="display: none;">
+                            <div class="featured-event">
+                                <div class="event-thumb">
+                                    <a><img class="big-img" src="/static/images/loading.png" alt=""></a>
+                                    <div class="event-date">
+                                        <h4><span></span></h4>
+                                    </div>
+                                </div>
+                                <div class="event-content">
+                                    <h3><a><span></span></a></h3>
+                                    <div class="event-bar clearfix">
+                                        <ul>
+                                            <li>
+                                                <a href="javascript:void(0)">
+                                                    <i aria-hidden="true" class="fa fa-clock-o icon"></i>截止日期 <span>Ends at</span>
+                                                </a>
+                                            </li>
+                                            <li>
+
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a class="theme-btn-1" href="#">详情 <span>Read More</span>></a>
+                                    <a class="theme-btn-1" href="#">加入 <span>Join Now</span></a>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center" id="domain_page">
+                        <div class="pagination-wrapper">
+                            <ul>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="sidebar-feature">
+                    <div class="row">
+
+                        <div class="cl-md-12 mb-30">
+                            <div class="newsletter-form newsletter-form-st2">
+                                <form class="form" action="/search/" method="get">
+                                    {% csrf_token %}
+                                    <div>
+                                        <input type="search" required="" placeholder="搜索项目" class="form-control"
+                                               name="q">
+                                        <button type="submit"><i class="fa fa-paper-plane-o"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-30">
+                            <h4 class="sidebar-title">热门主题</h4>
+                            <div class="cause-tags">
+                                {% for d in domain %}
+                                    <span>
+                                        <i class="fa fa-paper-plane-o icon"></i>
+                                        <a href="/project/domain/{{ d.domain_name }}">{{ d.domain_name }}</a>
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-30">
+                            <h4 class="row sidebar-title">热门项目</h4>
+                            {% for project in projects %}
+                                <div class="row news-post">
+                                    <div class="thumb">
+                                        <a href="/project/detail/{{ project.pid }}/">
+                                            <img alt="" src="{{ project.projection_image }}" class="popular-event">
+                                        </a>
+                                    </div>
+                                    <div class="content">
+                                        <h4><a href="/project/detail/{{ project.pid }}/">{{ project.projection_name }}</a></h4>
+                                        <p class="date"><i class="fa fa-clock-o"></i>{{ project.publish_time }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+    </section>
+    <!--Welcome Section End-->
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        var domain_name = "{{ domain_name | safe }}";
+        var page_cnt = {{ page_cnt | safe }};
+    </script>
+    <script src="{% static 'js/template.js' %}"></script>
+    <script src="{% static 'js/project_domain.js' %}"></script>
+{% endblock %}
