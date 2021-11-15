@@ -1,5 +1,5 @@
 Django==2.1.7
-pip==19.0.3
+pip==21.1
 pytz==2018.9
 setuptools==40.8.0
 wheel==0.33.1
